@@ -42,8 +42,6 @@ class ResetPasswordController extends Controller {
         $response = $this->resetPasswordService->resetPasswordProcess($request);
 
         return $this->webResponse($response, 'admin.dashboard');
-
-
     }
 
     /**
@@ -53,8 +51,6 @@ class ResetPasswordController extends Controller {
     public function passwordChangeProcess(PasswordChangeRequest $request) {
         $response = $this->resetPasswordService->changePassword($request);
 
-        return !$response['success'] ? redirect()->back()->with(['error' => $response['message']]) :
-            redirect()->back()->with(['success' => $response['message']]);
-
+        return $this->webResponse($response);
     }
 }
