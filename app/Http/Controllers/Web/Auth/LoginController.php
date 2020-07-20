@@ -40,9 +40,7 @@ class LoginController extends Controller {
     public function signInProcess(SignInRequest $request) {
         $response = $this->loginService->signInProcess($request);
 
-        return !$response ? redirect()->back()->with($this->errorResponse()) :
-            redirect()->route('admin.dashboard')->with($this->successResponse
-            ($response["message"]));
+        return $this->webResponse($response, 'admin.dashboard');
     }
 
     /**
