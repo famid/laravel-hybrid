@@ -6,7 +6,7 @@ namespace App\Http\Repository;
 
 use App\Models\MobileDevice;
 
-class MobileDeviceRepository
+class MobileDeviceRepository extends BaseRepository
 {
     protected $model;
 
@@ -15,16 +15,6 @@ class MobileDeviceRepository
      * @param MobileDevice $mobileDevice
      */
     public function __construct(MobileDevice $mobileDevice) {
-        $this->model = $mobileDevice;
+        parent::__construct($mobileDevice);
     }
-
-    /**
-     * @param $insert
-     * @return mixed
-     */
-    public function createOrUpdate($insert) {
-
-        return $this->model::create($insert);
-    }
-
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Web;
+namespace App\Http\Requests\Api;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseValidation;
 
-class ForgetPasswordRequest extends FormRequest
+class VerifyEmailRequest extends BaseValidation
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,19 @@ class ForgetPasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|exists:users,email'
+            'email_verification_code' => 'required|numeric',
         ];
     }
 
+
+    /**
+     * @return array
+     */
     public function messages()
     {
         return [
-            'email.required' => __('Email field can not be empty'),
+            'email_verification_code.required' => __('verification_code can not be empty'),
+            'email_verification_code.numeric' => __('Code field must be numeric'),
         ];
     }
 }

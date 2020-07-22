@@ -49,9 +49,8 @@ class Controller extends BaseController
 
             return  $redirection->with($this->errorResponse($serviceResponse["message"]));
         }
-        $redirection =!is_null($successRoute) ? $redirection->route($successRoute) : $redirection->back();
+       $redirection =!is_null($successRoute) ? $redirection->route($successRoute) : $redirection->back();
 
-        return  $redirection->with($this->successResponse($serviceResponse["message"]));
-
+       return  $redirection->with($this->successResponse($serviceResponse["message"]));
     }
 }

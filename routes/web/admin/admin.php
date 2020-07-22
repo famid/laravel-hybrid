@@ -1,7 +1,7 @@
 <?php
 
-Route::group(['middleware' => ['verifyEmail'],'namespace' => 'Web\User\Dashboard'], function() {
+Route::group(['middleware' => ['admin'],'namespace' => 'Web\Admin\Dashboard'], function() {
 
-    Route::get('user-dashboard', "DashboardController@dashboard")->name('user.dashboard');
+    Route::get('admin-dashboard', "DashboardController@dashboard")->name('admin.dashboard');
 
 });

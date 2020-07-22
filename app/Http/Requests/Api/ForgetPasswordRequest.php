@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Web;
+namespace App\Http\Requests\Api;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\BaseValidation;
 
-class ForgetPasswordRequest extends FormRequest
+class ForgetPasswordRequest extends BaseValidation
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class ForgetPasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|exists:users,email'
+            'email' => 'required|email|unique:users,email'
         ];
     }
 

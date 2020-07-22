@@ -32,13 +32,14 @@ class RegisterController extends Controller {
         return view('auth.register');
     }
 
+
     /**
      * @param SignUpRequest $request
      * @return RedirectResponse
      */
-    public function signUpProcess(SignUpRequest $request) {
+    public function signUpProcess(SignUpRequest $request)  {
         $response = $this->registerService->signUp($request);
 
-        return $this->webResponse($response,'singIn');
+        return $this->webResponse($response, 'signIn');
     }
 }

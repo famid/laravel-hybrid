@@ -4,7 +4,6 @@
 namespace App\Http\Services\Auth\Api;
 
 
-use App\Http\Repository\MobileDeviceRepository;
 use App\Http\Services\BaseService;
 use App\Http\Services\UserService;
 use Illuminate\Support\Facades\DB;
@@ -12,24 +11,18 @@ use Illuminate\Support\Facades\Hash;
 use Exception;
 
 class RegisterService extends BaseService {
+
     /**
      * @var UserService
      */
     protected $userService;
-    /**
-     * @var MobileDeviceRepository
-     */
-    protected $mobileDeviceRepository;
-
 
     /**
      * RegisterService constructor.
      * @param UserService $userService
-     * @param MobileDeviceRepository $mobileDeviceRepository
      */
-    public function __construct(UserService $userService, MobileDeviceRepository $mobileDeviceRepository) {
+    public function __construct(UserService $userService) {
         $this->userService = $userService;
-        $this->mobileDeviceRepository = $mobileDeviceRepository;
     }
 
     /**
@@ -59,20 +52,17 @@ class RegisterService extends BaseService {
         $createUserResponse = $this->userService->create($this->preparedCreateUserData($request));
 
         if (!$createUserResponse['success']) return $createUserResponse;
-        $storeMobileDeviceResponse = $this->storeMobileDeviceInfo(
-            $createUserResponse['data']->id,
-            $request->device_type,
-            $request->device_token
+        $getTokenResponse = $this->userService->getTokenAndStoreMobileDeviceData(
+            $createUserResponse['data'],
+            $request
         );
 
-        if (!$storeMobileDeviceResponse) return $this->response()->error();
-        $createTokenResponse = $this->accessToken($createUserResponse['data'],$request->get('email'));
-
-        if (!$createTokenResponse['success']) return $createTokenResponse;
-
-        return $this->response($this->preparedApiResponse($createTokenResponse['data'],
-            $createUserResponse['data']))
-            ->success('Successfully Signed up! \n Please verify your account');
+        return !$getTokenResponse['success'] ?
+            $getTokenResponse:
+            $this->response($this->preparedApiResponse(
+                $createUserResponse['data'],
+                $getTokenResponse['data'])
+            )->success('Successfully Signed up! \n Please verify your account');
     }
 
     /**
@@ -96,11 +86,11 @@ class RegisterService extends BaseService {
     }
 
     /**
-     * @param string $token
      * @param object $user
+     * @param string $token
      * @return array
      */
-    private function preparedApiResponse (string $token, object $user) :array {
+    private function preparedApiResponse (object $user, string $token) :array {
         return [
             'access_token' => $token,
             'access_type' => "Bearer",
@@ -113,31 +103,4 @@ class RegisterService extends BaseService {
         ];
     }
 
-    /**
-     * @param $userId
-     * @param $deviceType
-     * @param $deviceToken
-     * @return bool
-     */
-    private function storeMobileDeviceInfo($userId, $deviceType, $deviceToken) :bool {
-        $storeMobileDeviceResponse = $this->mobileDeviceRepository->createOrUpdate([
-            'user_id' => $userId,
-            'device_type' => $deviceType,
-            'device_token' => $deviceToken
-        ]);
-
-        return (!$storeMobileDeviceResponse || isset($storeMobileDeviceResponse)) ? false : true;
-    }
-
-    /**
-     * @param object $user
-     * @param $email
-     * @return array
-     */
-    private function accessToken(object $user,  $email) :array {
-       $token = $user->createToken($email)->accessToken;
-
-        return empty($token) ? $this->response()->error() :
-            $this->response($token)->success();
-    }
 }
