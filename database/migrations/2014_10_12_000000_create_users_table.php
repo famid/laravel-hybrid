@@ -27,7 +27,8 @@ class CreateUsersTable extends Migration
             $table->string('phone',25)->nullable();
             $table->string('phone_code',5)->nullable();
             $table->integer('phone_verification_code')->nullable();
-            $table->tinyInteger('is_phone_verified')->default(PENDING_STATUS);
+            $table->tinyInteger('phone_verified')->default(PENDING_STATUS);
+            $table->tinyInteger('email_verified')->default(PENDING_STATUS);
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

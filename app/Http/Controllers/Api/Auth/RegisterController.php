@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+
+use App\Http\Services\Auth\Api\RegisterService;
 use App\Http\Requests\Api\SignUpRequest;
-use App\Http\Services\Api\Auth\RegisterService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
