@@ -4,8 +4,8 @@
 namespace App\Http\Controllers\Web\Admin\Dashboard;
 
 
-use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
+use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
 

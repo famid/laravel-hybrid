@@ -47,9 +47,13 @@ class SendVerificationEmailJob implements ShouldQueue
                 'company' => $defaultName,
                 'logo' => $logo
             ], function ($message) use ($user, $defaultEmail, $defaultName) {
-                $message->to($user->email)->subject(__('Email Verification'))->from(
-                    $defaultEmail, $defaultName
-                );
+                $message
+                    ->to($user->email)
+                    ->subject(__('Email Verification'))
+                    ->from(
+                        $defaultEmail,
+                        $defaultName
+                    );
             });
         } catch (Exception $exception){
             Log::info($exception->getMessage());

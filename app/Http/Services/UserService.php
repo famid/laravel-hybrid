@@ -25,31 +25,30 @@ class UserService extends BaseService {
     public function create(array $userData) : array {
         try {
             $user = $this->repository->create($userData);
-            if(!$user) return $this->jsonResponse()->error();
+            if(!$user) return $this->response()->error();
             dispatch(new SendVerificationEmailJob($user->email_verification_code, $user))
                 ->onQueue('email-send');
 
-            return $this->jsonResponse($user)
+            return $this->response($user)
                 ->success("Successfully Signed up! \n Please verify your account");
         } catch (Exception $e) {
 
-            return $this->jsonResponse()->error();
+            return $this->response()->error();
         }
     }
 
-    /**
-     * @param string $email
+    /**r  * @param string $email
      * @return array
      */
     public function userEmailExists(string $email) :array {
         try {
             $user = $this->repository->getUser(['email' => $email]);
 
-            return empty($user) ? $this->jsonResponse()->error() :
-                $this->jsonResponse($user)->success();
+            return empty($user) ? $this->response()->error() :
+                $this->response($user)->success();
         } catch (Exception $e) {
 
-            return $this->jsonResponse()->error();
+            return $this->response()->error();
         }
     }
 

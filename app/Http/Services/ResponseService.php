@@ -23,7 +23,7 @@ abstract class ResponseService {
      * @param null $data
      * @return ResponseService
      */
-    public function jsonResponse($data = null) {
+    public function response($data = null) {
         $this->response["data"] = $data;
         return $this;
     }

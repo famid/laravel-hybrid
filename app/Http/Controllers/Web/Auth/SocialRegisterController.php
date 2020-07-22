@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Web\Auth;
 
-
-use App\Http\Services\web\Auth\SocialRegisterService;
+use App\Http\Services\Auth\web\SocialRegisterService;
 use Illuminate\Http\RedirectResponse as RedirectResponseAlias;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;

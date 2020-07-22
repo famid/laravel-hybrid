@@ -13,15 +13,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+require base_path('routes/api/auth/auth.php');
+require base_path('routes/api/user/user.php');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
-/*
-    * ---------------------------------------------------------------------------------------------------------
-    * AUTHENTICATION API
-    * ---------------------------------------------------------------------------------------------------------
-    * */
-Route::group(['namespace' => 'Api'] , function () {
-    Route::post('sign-up', "RegisterController@signUp")->name('api.SignUp');
 });
