@@ -1,12 +1,10 @@
 <?php
 
-
 namespace App\Http\Controllers\Web\Auth;
-
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\VerifyEmailRequest;
-use App\Http\Services\web\Auth\VerificationService;
+use App\Http\Services\Auth\web\VerificationService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -42,10 +40,8 @@ class VerificationController extends Controller {
     public function verifyEmailProcess(VerifyEmailRequest $request) {
         $response = $this->verificationService->verifyEmailProcess($request);
 
-        return !$response ?
-            redirect()->back()->with($this->errorResponse($response["message"])) :
-            redirect()->route('admin.dashboard')
-                ->with($this->successResponse($response["message"]));
+        return $this->webResponse($response,'admin.dashboard');
+
     }
 
 }

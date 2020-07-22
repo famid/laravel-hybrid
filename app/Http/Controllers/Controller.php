@@ -22,6 +22,7 @@ class Controller extends BaseController
      * @return array
      */
     public function successResponse(string $message="") {
+
         return ["success" => $message];
     }
 
@@ -30,25 +31,27 @@ class Controller extends BaseController
      * @return string[]
      */
     public function errorResponse(string $message="") {
+
         return ["error" => empty($message) ? __($this->errorMessage) : $message];
     }
 
     /**
      * @param array $serviceResponse
-     * @param string $successRoute
+     * @param string|null $successRoute
      * @param string|null $failedRoute
      * @return RedirectResponse
      */
     public function webResponse(array $serviceResponse, string $successRoute = null,
-                                string $failedRoute = null) {
+                                string $failedRoute = null){
         $redirection = redirect();
-        $redirection = $serviceResponse["success"] ?
-            (!is_null($successRoute) ? $redirection->route($successRoute) : $redirection->back()) :
-            (!is_null($failedRoute) ? $redirection->route($failedRoute) : $redirection->back());
-        $redirection = $serviceResponse["success"] ?
-            $redirection->with($this->successResponse($serviceResponse["message"])) :
-            $redirection->with($this->errorResponse($serviceResponse["message"]));
+        if (!$serviceResponse['success']) {
+            $redirection =!is_null($failedRoute) ? $redirection->route($failedRoute) : $redirection->back();
 
-        return $redirection;
+            return  $redirection->with($this->errorResponse($serviceResponse["message"]));
+        }
+        $redirection =!is_null($successRoute) ? $redirection->route($successRoute) : $redirection->back();
+
+        return  $redirection->with($this->successResponse($serviceResponse["message"]));
+
     }
 }

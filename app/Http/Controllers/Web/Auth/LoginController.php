@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Web\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Web\SignInRequest;
-use App\Http\Services\web\Auth\LoginService;
 use Illuminate\Contracts\Foundation\Application;
+use App\Http\Services\Auth\web\LoginService;
+use App\Http\Requests\Web\SignInRequest;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
