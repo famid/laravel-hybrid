@@ -36,25 +36,6 @@ class Controller extends BaseController
     }
 
     /**
-//     * @param array $serviceResponse
-//     * @param string $successRoute
-//     * @param string|null $failedRoute
-//     * @return RedirectResponse
-     */
-//    public function webResponse(array $serviceResponse, string $successRoute = null,
-//                                string $failedRoute = null) {
-//        $redirection = redirect();
-//        $redirection = $serviceResponse["success"] ?
-//            (!is_null($successRoute) ? $redirection->route($successRoute) : $redirection->back()) :
-//            (!is_null($failedRoute) ? $redirection->route($failedRoute) : $redirection->back());
-//        $redirection = $serviceResponse["success"] ?
-//            $redirection->with($this->successResponse($serviceResponse["message"])) :
-//            $redirection->with($this->errorResponse($serviceResponse["message"]));
-//
-//        return $redirection;
-//    }
-
-    /**
      * @param array $serviceResponse
      * @param string|null $successRoute
      * @param string|null $failedRoute
