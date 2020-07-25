@@ -4,12 +4,25 @@
 namespace App\Http\Services\Auth\web;
 
 
-use App\Http\Services\BaseService;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Services\BaseService;
+use App\Http\Services\UserService;
 use Exception;
 
 class LoginService extends  BaseService {
 
+    /**
+     * @var UserService
+     */
+    protected $userService;
+
+    /**
+     * LoginService constructor.
+     * @param UserService $userService
+     */
+    public function __construct(UserService $userService) {
+        $this->userService = $userService;
+    }
     /**
      * @param object $request
      * @return array
@@ -17,10 +30,12 @@ class LoginService extends  BaseService {
     public function signInProcess(object $request) : array {
         try {
             $credentials = $this->credentials($request->except('_token'));
-            $valid = Auth::attempt($credentials);
-            if (!$valid) return $this->response()->error();
+            if(!Auth::attempt($credentials) ) return $this->response()->error();
+            $user = Auth::user();
 
-            return $this->response()->success('Congratulations! You have signed in successfully.');
+            return !$this->userService->checkUserEmailIsVerified($user) ?
+                $this->error("Your account is not verified. Please verify your account."):
+                $this->response()->success('Congratulations! You have signed in successfully.');
         } catch (Exception $e) {
 
             return $this->response()->error();

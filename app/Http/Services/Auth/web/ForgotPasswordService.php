@@ -5,9 +5,9 @@ namespace App\Http\Services\Auth\web;
 
 
 use App\Http\Repository\PasswordResetRepository;
+use App\Jobs\SendForgetPasswordEmailJob;
 use App\Http\Services\BaseService;
 use App\Http\Services\UserService;
-use App\Jobs\SendForgetPasswordEmailJob;
 use Exception;
 
 class ForgotPasswordService extends BaseService {
@@ -55,8 +55,8 @@ class ForgotPasswordService extends BaseService {
      * @return array
      */
     private function storePasswordResetCode(object $user, int $randNo) : array {
-        $storePasswordResetResponse = $this->passwordResetRepository->
-        storePasswordResetCode($user->id, $randNo);
+        $storePasswordResetResponse = $this->passwordResetRepository
+            ->storePasswordResetCode($user->id, $randNo);
 
         return !$storePasswordResetResponse ? $this->response()->error() :
             $this->response()->success('Code has been sent to ' . ' ' . $user->email);
