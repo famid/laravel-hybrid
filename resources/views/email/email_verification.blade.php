@@ -225,12 +225,24 @@
                         <strong>{{ __('We need to verify your email address.') }}</strong>
                         <br>
                         <br>
-                        <p>{{ __('Your email verification code is') }}</p>
-                        <br>
-                        <br>
-                        <div class="reset-pass-btn">
-                            <a>{{ $key }}</a>
-                        </div>
+
+                        @if(isset($key))
+                            <p>{{ __('Your email verification code is') }}</p>
+                            <br>
+                            <br>
+                            <div class="reset-pass-btn">
+                                <a>{{ $key }}</a>
+                            </div>
+                        @elseif(isset($verify_link))
+                            <p>{{ __('Your email verification link is') }}</p>
+                            <br>
+                            <br>
+                            <div>
+                                <a href="{{url('verify-email', $verify_link)}}">
+                                    <p>{{ __('Click This Link To Verify Your Email') }}</p>
+                                </a>
+                            </div>
+                         @endif
                         <br>
                         <br>
                     </td>

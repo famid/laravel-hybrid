@@ -44,6 +44,7 @@ class SendVerificationEmailJob implements ShouldQueue
             $logo = config('email.logo');
             Mail::send('email.email_verification', [
                 'key' => $this->randNo,
+                'verify_link' => encrypt($this->user->id),
                 'company' => $defaultName,
                 'logo' => $logo
             ], function ($message) use ($user, $defaultEmail, $defaultName) {

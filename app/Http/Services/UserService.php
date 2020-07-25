@@ -109,4 +109,14 @@ class UserService extends BaseService {
             $this->response($token)->success();
     }
 
+    /**
+     * @param object $user
+     * @return bool
+     */
+    public function checkUserEmailIsVerified(object $user) :bool {
+
+        return is_null($user->email_verification_code) && $user->email_verified == ACTIVE_STATUS;
+    }
+
+
 }

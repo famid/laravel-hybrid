@@ -38,10 +38,13 @@ class VerificationController extends Controller {
      * @return RedirectResponse
      */
     public function verifyEmailProcess(VerifyEmailRequest $request) {
-        $response = $this->verificationService->verifyEmailProcess($request);
 
-        return $this->webResponse($response,'admin.dashboard');
+        return $this->webResponse($this->verificationService->verifyEmailByCode($request),'signIn');
+    }
 
+    public function verifyEmail($id) {
+
+        return $this->webResponse($this->verificationService->verifyEmailByLink($id),'signIn');
     }
 
 }
