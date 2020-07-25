@@ -23,6 +23,7 @@ Route::group(['namespace' => 'Web\Auth'] , function () {
 
     Route::post('verify-email-process', "VerificationController@verifyEmailProcess")
         ->name('verifyEmailProcess');
+    Route::get('verify-email/{id}',"VerificationController@verifyEmail")->name('verifyEmail');
 
     Route::get('forget-password', "ForgotPasswordController@forgetPasswordView")
         ->name('forgetPasswordView');

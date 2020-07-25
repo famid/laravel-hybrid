@@ -39,6 +39,7 @@ class SocialRegisterController extends Controller {
     public function handleProviderCallback($provider){
         $response = $this->socialRegisterService->socialRegistration($provider);
 
+
         return $this->webResponse($response, 'admin.dashboard');
     }
 }
