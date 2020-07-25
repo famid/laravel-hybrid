@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class Admin
 {
-
-
     /**
      * @param $request
      * @param Closure $next
