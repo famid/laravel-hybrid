@@ -23,8 +23,10 @@ class VerifyEmailRequest extends BaseValidation
      */
     public function rules()
     {
+
         return [
-            'email_verification_code' => 'required|numeric',
+            'email' => 'required|email|exists:users,email',
+            'email_verification_code' => 'required',
         ];
     }
 
@@ -36,7 +38,9 @@ class VerifyEmailRequest extends BaseValidation
     {
         return [
             'email_verification_code.required' => __('verification_code can not be empty'),
-            'email_verification_code.numeric' => __('Code field must be numeric'),
+            //'email_verification_code.numeric' => __('Code field must be numeric'),
+            'email.required' => __('Email field can not be empty'),
+            'email.email' => __('Invalid email address'),
         ];
     }
 }

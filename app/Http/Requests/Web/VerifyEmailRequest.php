@@ -24,6 +24,7 @@ class VerifyEmailRequest extends FormRequest
     public function rules()
     {
         return [
+            'email' => 'required|email|exists:users,email',
             'email_verification_code' => 'required',
         ];
     }
@@ -36,6 +37,8 @@ class VerifyEmailRequest extends FormRequest
     {
         return [
             'email_verification_code.required' => __('verification_code can not be empty'),
+            'email.required' => __('Email field can not be empty'),
+            'email.email' => __('Invalid email address'),
         ];
     }
 }
