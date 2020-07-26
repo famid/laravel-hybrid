@@ -67,7 +67,7 @@ class SocialRegisterService extends BaseService {
     public function checkUserHasAccount (object $providerUser, string $provider) : bool {
         $userHasAccount = $this->socialAccountRepository->getUserAccount($providerUser->getId(), $provider);
 
-         return !isset($userHasAccount) ? false : true;
+         return !isset($userHasAccount);
     }
 
     /**
