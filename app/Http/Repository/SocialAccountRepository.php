@@ -6,8 +6,8 @@ namespace App\Http\Repository;
 
 use App\Models\SocialAccount;
 
-class SocialAccountRepository extends BaseRepository
-{
+class SocialAccountRepository extends BaseRepository {
+
     /**
      * UserRepository constructor.
      * @param SocialAccount $socialAccount

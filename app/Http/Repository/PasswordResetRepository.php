@@ -6,8 +6,9 @@ namespace App\Http\Repository;
 
 use App\Models\PasswordReset;
 
-class PasswordResetRepository
-{
+class PasswordResetRepository {
+
+    // TODO: Extend base repository
     protected $model;
 
     /**
