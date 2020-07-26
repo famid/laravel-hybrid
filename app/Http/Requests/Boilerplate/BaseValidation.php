@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Boilerplate;
 
 
 use Illuminate\Contracts\Validation\Validator;
