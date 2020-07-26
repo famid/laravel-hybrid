@@ -16,11 +16,10 @@ class EmailVerified
      * @return RedirectResponse|mixed
      */
     public function handle($request, Closure $next) {
-
-        if (Auth::check() && Auth::user()->status == ACTIVE_STATUS) {
+        if (Auth::check() && Auth::user()->email_verified == ACTIVE_STATUS) {
 
             return $next($request);
-        }elseif (Auth::check() && Auth::user()->status == PENDING_STATUS) {
+        }elseif (Auth::check() && Auth::user()->email_verified == PENDING_STATUS) {
 
             return redirect()->route('emailVerificationView');
         }

@@ -4,16 +4,26 @@
 namespace App\Http\Services\Auth\Api;
 
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Services\BaseService;
 use App\Http\Services\UserService;
-use Illuminate\Support\Facades\Hash;
 use Exception;
+
 
 class LoginService extends BaseService {
     /**
      * @var UserService
      */
     protected $userService;
+    /**
+     * @var object
+     */
+    private $request;
+    /**
+     * @var mixed
+     */
+    private $user;
 
     /**
      * LoginService constructor.
@@ -29,16 +39,17 @@ class LoginService extends BaseService {
      */
     public function signInProcess(object $request) : array {
         try {
-            $getValidateUser = $this->getValidateUser($request);
+            $this->request = $request;
+            $validateUserResponse = $this->getValidateUser();
+            if (!$validateUserResponse['success']) return $validateUserResponse;
+            $this->user = $validateUserResponse['data'];
+//            $credentials = $this->request->only('email','password');
+//            if(!Auth::attempt($credentials) ) return $this->response()->error();
+//            $this->user = Auth::user();
 
-            if (!$getValidateUser['success']) return $getValidateUser;
-            $getTokenResponse = $this->userService->getTokenAndStoreMobileDeviceData(
-                $getValidateUser['data'],
-                $request
-            );
-
-            return !$getTokenResponse['success'] ? $getTokenResponse:
-                $this->getSignInApiResponse($getValidateUser['data'],$getTokenResponse['data']);
+            return !$this->userService->checkUserEmailIsVerified($this->user) ?
+                $this->error("Your account is not verified. Please verify your account."):
+                $this->getSignInApiResponse();
         } catch (Exception $e) {
 
             return $this->response()->error();
@@ -46,57 +57,42 @@ class LoginService extends BaseService {
     }
 
     /**
-     * @param object $request
      * @return array
      */
-    private function getValidateUser(object $request) :array {
-        $userResponse = $this->userService->userEmailExists($request->email);
-
+    private function getValidateUser() :array {
+        $userResponse = $this->userService->userEmailExists($this->request->email);
         if(!$userResponse['success']) return $userResponse;
 
-        return !Hash::check($request->password, $userResponse['data']->password) ?
-            $this->response()->error('Your given Password is incorrect'): $userResponse;
+        return !Hash::check($this->request->password, $userResponse['data']->password) ?
+            $this->response()->error('Your given Password is incorrect') : $userResponse;
     }
 
     /**
-     * @param object $user
      * @param string $token
      * @return array
      */
-    private function prepareSignInResponse(object $user, string $token) : array {
+    private function _prepareSignInResponse(string $token) : array {
+
         return [
-            'email_verified' => $user->email_verified,
+            'email_verified' => true,
             'access_token' => $token,
             'access_type' => "Bearer",
             'user_data' => [
-                'name' => $user->first_name . ' ' . $user->last_name,
-                'email' => $user->email,
-                'phone' => $user->phone
+                'name' => $this->user->first_name . ' ' . $this->user->last_name,
+                'email' => $this->user->email,
+                'phone' => $this->user->phone
             ]
         ];
     }
 
     /**
-     * @param object $user
-     * @param string $token
      * @return array
      */
-    private function getSignInApiResponse(object $user, string $token) :array {
-        return $this->response($this->prepareSignInResponse($user, $token))
-            ->success(
-                !$this->checkUserEmailIsVerified($user) ?
-                    "Your account is not verified. Please verify your account." :
-                    "Successfully Signed in!"
-            );
-    }
+    private function getSignInApiResponse() :array {
+        $getTokenResponse = $this->userService->getTokenAndStoreMobileDeviceData($this->user, $this->request);
 
-    /**
-     * @param object $user
-     * @return bool
-     */
-    public function checkUserEmailIsVerified(object $user) :bool {
-
-        return !is_null($user->email_verification_code) || $user->status != USER_ACTIVE_STATUS;
+        return !$getTokenResponse['success']  ? $getTokenResponse :
+            $this->_prepareSignInResponse($getTokenResponse['data']);
     }
 
 }

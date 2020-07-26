@@ -4,9 +4,9 @@
 namespace App\Http\Services\Auth\web;
 
 
+use Illuminate\Support\Facades\Hash;
 use App\Http\Services\BaseService;
 use App\Http\Services\UserService;
-use Illuminate\Support\Facades\Hash;
 
 class RegisterService extends BaseService {
 
@@ -14,6 +14,11 @@ class RegisterService extends BaseService {
      * @var UserService
      */
     protected $userService;
+
+    /**
+     * @var
+     */
+    private $request;
 
     /**
      * RegisterService constructor.
@@ -28,27 +33,26 @@ class RegisterService extends BaseService {
      * @return array
      */
     public function signUp(object $request) : array {
+        $this->request = $request;
 
-        return $this->userService->create($this->preparedCreateUserData($request));
+        return $this->userService->create($this->preparedCreateUserData());
     }
 
     /**
-     * @param object $request
      * @return array
      */
-    private function preparedCreateUserData(object $request) : array {
+    private function preparedCreateUserData() : array {
 
         return [
-            'email' => $request->email,
-            'phone_code' => $request->phone_code,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->get('password')),
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'username' => $request->username,
+            'email' => $this->request->email,
+            'phone_code' => $this->request->phone_code,
+            'phone' => $this->request->phone,
+            'password' => Hash::make($this->request->get('password')),
+            'first_name' => $this->request->first_name,
+            'last_name' => $this->request->last_name,
+            'username' => $this->request->username,
             'role' => USER_ROLE,
             'status' => USER_PENDING_STATUS,
-            'email_verification_code' => randomNumber(6),
         ];
     }
 

@@ -24,13 +24,15 @@ class ForgetPasswordRequest extends BaseValidation
     public function rules()
     {
         return [
-            'email' => 'required|email|unique:users,email'
+
+            'email' => 'required|email|exists:users,email',
         ];
     }
 
     public function messages()
     {
         return [
+
             'email.required' => __('Email field can not be empty'),
         ];
     }

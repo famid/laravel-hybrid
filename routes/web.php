@@ -17,7 +17,7 @@ require base_path('routes/web/admin/admin.php');
 require base_path('routes/web/user/user.php');
 // ------------------------------ Test routes ------------------------------
 Route::get('/test', 'TestController@test')->name('test');
-Route::get('/test-redirect', 'TestController@testRedirect')->name('test.redirect');
+Route::get('/test-redirect/{id}', 'TestController@testRedirect')->name('test.redirect');
 // ------------------------------ End Of Test Routes -----------------------
 
 Route::get('/', "Web\Auth\LoginController@signIn")->name('signIn');

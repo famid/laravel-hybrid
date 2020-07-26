@@ -69,7 +69,8 @@
                 <a class="btn btn-rounded btn-outline-primary btn-outline-email btn-block btn-icon-text" href="signup.html">
                     <i class="i-Mail-with-At-Sign"></i> Sign up with Email
                 </a>
-                <a class="btn btn-rounded btn-outline-google btn-block btn-icon-text">
+                <a class="btn btn-rounded btn-outline-google btn-block btn-icon-text"  href="{{route
+                    ('redirectToProvider', ['google'])}}">
                     <i class="i-Google-Plus"></i> Sign up with Google
                 </a>
                 <a class="btn btn-rounded btn-block btn-icon-text btn-outline-facebook" href="{{route
