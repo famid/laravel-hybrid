@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 
 
 class ResetPasswordController extends Controller {
+
     /**
      * @var
      */

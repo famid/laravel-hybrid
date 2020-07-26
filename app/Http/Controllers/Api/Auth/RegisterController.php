@@ -8,8 +8,8 @@ use App\Http\Services\Auth\Api\RegisterService;
 use App\Http\Requests\Api\SignUpRequest;
 use Illuminate\Http\JsonResponse;
 
-class RegisterController extends Controller
-{
+class RegisterController extends Controller {
+
     /**
      * @var RegisterService
      */
