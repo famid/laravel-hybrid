@@ -6,6 +6,7 @@ namespace App\Http\Services\Auth\Api;
 
 use App\Http\Services\Auth\AuthenticationService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Http\Services\UserService;
 use Exception;
 
@@ -70,6 +71,21 @@ class LoginService extends AuthenticationService {
 
         return !$getTokenResponse['success']  ? $getTokenResponse :
             $this->_prepareSignInResponse($user, $getTokenResponse['data']);
+    }
+
+    public function logout(object $request) :array {
+        try {
+
+            $token = $request->user()->token();
+            if (empty($token)) return $this->response()->error();
+            DB::table('oauth_access_tokens')->where('id', $token->id)->delete();
+
+            return $this->response()->success('Logged out successfully');
+        } catch (Exception $e) {
+
+            return $this->response()->error();
+        }
+
     }
 
 }
