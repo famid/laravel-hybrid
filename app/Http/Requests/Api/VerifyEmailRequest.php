@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\Api;
 
-use App\Http\Requests\BaseValidation;
 
-class VerifyEmailRequest extends BaseValidation
-{
+use App\Http\Requests\Boilerplate\BaseValidation;
+
+class VerifyEmailRequest extends BaseValidation {
     /**
      * Determine if the user is authorized to make this request.
      *
