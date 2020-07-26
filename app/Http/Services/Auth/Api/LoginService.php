@@ -5,25 +5,19 @@ namespace App\Http\Services\Auth\Api;
 
 
 use App\Http\Services\Auth\AuthenticationService;
+use App\Http\Services\MobileDeviceService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Http\Services\UserService;
 use Exception;
-
 
 class LoginService extends AuthenticationService {
 
     /**
-     * @var UserService
-     */
-    protected $userService;
-
-    /**
      * LoginService constructor.
-     * @param UserService $userService
+     * @param MobileDeviceService $mobileDeviceService
      */
-    public function __construct(UserService $userService) {
-        parent::__construct($userService);
+    public function __construct(MobileDeviceService $mobileDeviceService) {
+        parent::__construct($mobileDeviceService);
     }
 
     /**
@@ -67,15 +61,18 @@ class LoginService extends AuthenticationService {
      * @return array
      */
     private function getSignInApiResponse(object $user, object $request) :array {
-        $getTokenResponse = $this->userService->getTokenAndStoreMobileDeviceData($user, $request);
+        $getTokenResponse = $this->getTokenAndStoreMobileDeviceData($user, $request);
 
         return !$getTokenResponse['success']  ? $getTokenResponse :
             $this->_prepareSignInResponse($user, $getTokenResponse['data']);
     }
 
+    /**
+     * @param object $request
+     * @return array
+     */
     public function logout(object $request) :array {
         try {
-
             $token = $request->user()->token();
             if (empty($token)) return $this->response()->error();
             DB::table('oauth_access_tokens')->where('id', $token->id)->delete();
@@ -85,7 +82,6 @@ class LoginService extends AuthenticationService {
 
             return $this->response()->error();
         }
-
     }
 
 }

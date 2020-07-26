@@ -4,13 +4,14 @@
 namespace App\Http\Services\Auth\Api;
 
 
-use App\Http\Services\BaseService;
+use App\Http\Services\Auth\AuthenticationService;
+use App\Http\Services\MobileDeviceService;
 use App\Http\Services\UserService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Exception;
 
-class RegisterService extends BaseService {
+class RegisterService extends AuthenticationService {
 
     /**
      * @var UserService
@@ -20,8 +21,10 @@ class RegisterService extends BaseService {
     /**
      * RegisterService constructor.
      * @param UserService $userService
+     * @param MobileDeviceService $mobileDeviceService
      */
-    public function __construct(UserService $userService) {
+    public function __construct(UserService $userService, MobileDeviceService $mobileDeviceService) {
+        Parent::__construct($mobileDeviceService);
         $this->userService = $userService;
     }
 
@@ -52,7 +55,7 @@ class RegisterService extends BaseService {
         $createUserResponse = $this->userService->create($this->preparedCreateUserData($request));
 
         if (!$createUserResponse['success']) return $createUserResponse;
-        $getTokenResponse = $this->userService->getTokenAndStoreMobileDeviceData(
+        $getTokenResponse = $this->getTokenAndStoreMobileDeviceData(
             $createUserResponse['data'],
             $request
         );

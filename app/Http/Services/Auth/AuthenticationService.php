@@ -5,22 +5,22 @@ namespace App\Http\Services\Auth;
 
 
 use App\Http\Services\BaseService;
-use App\Http\Services\UserService;
+use App\Http\Services\MobileDeviceService;
 use Illuminate\Support\Facades\Auth;
 
 class AuthenticationService extends BaseService {
 
     /**
-     * @var UserService
+     * @var MobileDeviceService
      */
-    protected $userService;
+    protected $mobileDeviceService;
 
     /**
      * LoginService constructor.
-     * @param UserService $userService
+     * @param MobileDeviceService $mobileDeviceService
      */
-    public function __construct(UserService $userService) {
-        $this->userService = $userService;
+    public function __construct( MobileDeviceService $mobileDeviceService) {
+        $this->mobileDeviceService = $mobileDeviceService;
     }
 
     /**
@@ -32,7 +32,7 @@ class AuthenticationService extends BaseService {
         if(!Auth::attempt($credentials)) return $this->response()->error();;
         $user = Auth::user();
 
-        return !$this->userService->checkUserEmailIsVerified($user) ?
+        return !$this->checkUserEmailIsVerified($user) ?
             $this->response()->error("Your account is not verified. Please verify your account."):
             $this->response()->success('Congratulations! You have signed in successfully.');
     }
@@ -50,6 +50,46 @@ class AuthenticationService extends BaseService {
             'username' => $data['email'],
             'password' => $data['password']
         ];
+    }
+
+    /**
+     * @param object $user
+     * @param object $request
+     * @return array
+     */
+    public function getTokenAndStoreMobileDeviceData(object $user, object $request) :array {
+        $createTokenResponse = $this->accessToken($user,$request->get('email'));
+
+        if (!$createTokenResponse['success']) return $createTokenResponse;
+        $storeMobileDeviceResponse = $this->mobileDeviceService->updateOrCreateMobileDeviceInfo(
+            $user->id,
+            $request->device_type,
+            $request->device_token
+        );
+
+        return !$storeMobileDeviceResponse ? $this->response()->error() :
+            $this->response($createTokenResponse['data'])->success();
+    }
+
+    /**
+     * @param object $user
+     * @return bool
+     */
+    public function checkUserEmailIsVerified(object $user) :bool {
+
+        return is_null($user->email_verification_code) && $user->email_verified == ACTIVE_STATUS;
+    }
+
+    /**
+     * @param object $user
+     * @param $email
+     * @return array
+     */
+    private function accessToken(object $user,  $email) :array {
+        $token = $user->createToken($email)->accessToken;
+
+        return empty($token) ? $this->response()->error() :
+            $this->response($token)->success();
     }
 
 }
