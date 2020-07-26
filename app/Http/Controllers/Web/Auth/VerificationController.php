@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\VerifyEmailRequest;
-use App\Http\Services\Auth\web\VerificationService;
+use App\Http\Services\Auth\PasswordAndVerification\VerificationService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Requests\Api\VerifyEmailRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Services\Auth\web\VerificationService;
+use App\Http\Services\Auth\PasswordAndVerification\VerificationService;
 use Illuminate\Http\JsonResponse;
 
 

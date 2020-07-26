@@ -28,7 +28,7 @@ class LoginController extends Controller {
      */
     public function signInProcess(SignInRequest $request) {
 
-        return response()->json($this->loginService->signInProcess($request));
+        return response()->json($this->loginService->signIn($request));
     }
 
 }
