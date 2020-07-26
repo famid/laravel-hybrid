@@ -6,7 +6,7 @@ namespace App\Http\Services\Auth\PasswordAndVerification;
 
 use App\Http\Repository\PasswordResetRepository;
 use App\Http\Repository\UserRepository;
-use App\Http\Services\BaseService;
+use App\Http\Services\Boilerplate\BaseService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
