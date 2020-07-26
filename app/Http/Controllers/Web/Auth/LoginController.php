@@ -38,7 +38,7 @@ class LoginController extends Controller {
      * @return RedirectResponse
      */
     public function signInProcess(SignInRequest $request) {
-        $response = $this->loginService->signInProcess($request);
+        $response = $this->loginService->signIn($request);
 
         return $this->webResponse($response, 'admin.dashboard');
     }

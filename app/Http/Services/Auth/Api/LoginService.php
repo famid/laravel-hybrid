@@ -4,6 +4,7 @@
 namespace App\Http\Services\Auth\Api;
 
 
+use App\Http\Services\Auth\AuthenticationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -12,45 +13,31 @@ use App\Http\Services\UserService;
 use Exception;
 
 
-class LoginService extends BaseService {
+class LoginService extends AuthenticationService {
+
     /**
      * @var UserService
      */
     protected $userService;
-    /**
-     * @var object
-     */
-    private $request;
-    /**
-     * @var mixed
-     */
-    private $user;
 
     /**
      * LoginService constructor.
      * @param UserService $userService
      */
     public function __construct(UserService $userService) {
-        $this->userService = $userService;
+        parent::__construct($userService);
     }
 
     /**
      * @param object $request
      * @return array
      */
-    public function signInProcess(object $request) : array {
+    public function signIn(object $request) : array {
         try {
-            $this->request = $request;
-            $validateUserResponse = $this->getValidateUser();
-            if (!$validateUserResponse['success']) return $validateUserResponse;
-            $this->user = $validateUserResponse['data'];
-//            $credentials = $this->request->only('email','password');
-//            if(!Auth::attempt($credentials) ) return $this->response()->error();
-//            $this->user = Auth::user();
-
-            return !$this->userService->checkUserEmailIsVerified($this->user) ?
-                $this->error("Your account is not verified. Please verify your account."):
-                $this->getSignInApiResponse();
+            $signInResponse = $this->signInProcess($request);
+            return !$signInResponse["success"] ?
+                $signInResponse :
+                $this->getSignInApiResponse(Auth::user(), $request);
         } catch (Exception $e) {
 
             return $this->response()->error();
@@ -58,42 +45,34 @@ class LoginService extends BaseService {
     }
 
     /**
-     * @return array
-     */
-    private function getValidateUser() :array {
-        $userResponse = $this->userService->userEmailExists($this->request->email);
-        if(!$userResponse['success']) return $userResponse;
-
-        return !Hash::check($this->request->password, $userResponse['data']->password) ?
-            $this->response()->error('Your given Password is incorrect') : $userResponse;
-    }
-
-    /**
+     * @param object $user
      * @param string $token
      * @return array
      */
-    private function _prepareSignInResponse(string $token) : array {
+    private function _prepareSignInResponse(object $user, string $token) : array {
 
         return [
             'email_verified' => true,
             'access_token' => $token,
             'access_type' => "Bearer",
             'user_data' => [
-                'name' => $this->user->first_name . ' ' . $this->user->last_name,
-                'email' => $this->user->email,
-                'phone' => $this->user->phone
+                'name' => $user->first_name . ' ' . $user->last_name,
+                'email' => $user->email,
+                'phone' => $user->phone
             ]
         ];
     }
 
     /**
+     * @param object $user
+     * @param object $request
      * @return array
      */
-    private function getSignInApiResponse() :array {
-        $getTokenResponse = $this->userService->getTokenAndStoreMobileDeviceData($this->user, $this->request);
+    private function getSignInApiResponse(object $user, object $request) :array {
+        $getTokenResponse = $this->userService->getTokenAndStoreMobileDeviceData($user, $request);
 
         return !$getTokenResponse['success']  ? $getTokenResponse :
-            $this->_prepareSignInResponse($getTokenResponse['data']);
+            $this->_prepareSignInResponse($user, $getTokenResponse['data']);
     }
 
     public function logout(object $request) :array {

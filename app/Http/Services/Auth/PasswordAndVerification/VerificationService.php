@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Services\Auth\web;
+namespace App\Http\Services\Auth\PasswordAndVerification;
 
 
 use App\Http\Repository\UserRepository;

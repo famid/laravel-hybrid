@@ -58,7 +58,7 @@ class RegisterService extends BaseService {
         );
 
         return !$getTokenResponse['success'] ?
-            $getTokenResponse:
+            $getTokenResponse :
             $this->response($this->preparedApiResponse(
                 $createUserResponse['data'],
                 $getTokenResponse['data'])
