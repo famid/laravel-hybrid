@@ -96,6 +96,9 @@ class UserService extends BaseService {
 
         return (!$storeMobileDeviceResponse || !isset($storeMobileDeviceResponse)) ? false : true;
     }
+    public function deleteMobileDeviceInfo() {
+
+    }
 
     /**
      * @param object $user

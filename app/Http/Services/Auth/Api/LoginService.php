@@ -5,6 +5,7 @@ namespace App\Http\Services\Auth\Api;
 
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Services\BaseService;
 use App\Http\Services\UserService;
@@ -93,6 +94,21 @@ class LoginService extends BaseService {
 
         return !$getTokenResponse['success']  ? $getTokenResponse :
             $this->_prepareSignInResponse($getTokenResponse['data']);
+    }
+
+    public function logout(object $request) :array {
+        try {
+
+            $token = $request->user()->token();
+            if (empty($token)) return $this->response()->error();
+            DB::table('oauth_access_tokens')->where('id', $token->id)->delete();
+
+            return $this->response()->success('Logged out successfully');
+        } catch (Exception $e) {
+
+            return $this->response()->error();
+        }
+
     }
 
 }
