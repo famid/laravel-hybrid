@@ -7,8 +7,6 @@ namespace App\Http\Services\Auth\Api;
 use App\Http\Services\Auth\AuthenticationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Services\BaseService;
 use App\Http\Services\UserService;
 use Exception;
 
