@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests\Api;
 
-use App\Http\Requests\BaseValidation;
+
+use App\Http\Requests\Boilerplate\BaseValidation;
 
 class ResetPasswordRequest extends BaseValidation
 {

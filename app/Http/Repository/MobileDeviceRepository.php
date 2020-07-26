@@ -6,8 +6,11 @@ namespace App\Http\Repository;
 
 use App\Models\MobileDevice;
 
-class MobileDeviceRepository extends BaseRepository
-{
+class MobileDeviceRepository extends BaseRepository {
+
+    /**
+     * @var
+     */
     protected $model;
 
     /**

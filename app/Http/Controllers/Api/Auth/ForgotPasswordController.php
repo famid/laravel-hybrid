@@ -7,8 +7,8 @@ use App\Http\Requests\Api\ForgetPasswordRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 
-class ForgotPasswordController extends Controller
-{
+class ForgotPasswordController extends Controller {
+
     /**
      * @var
      */

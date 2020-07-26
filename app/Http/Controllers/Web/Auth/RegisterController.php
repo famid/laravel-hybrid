@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class RegisterController extends Controller {
+
     /**
      * @var RegisterService
      */

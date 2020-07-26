@@ -4,7 +4,7 @@
 namespace App\Http\Services\Auth\web;
 
 
-use App\Http\Services\BaseService;
+use App\Http\Services\Boilerplate\BaseService;
 use App\Http\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -102,23 +102,7 @@ class SocialRegisterService extends BaseService {
     private function getUser (object $providerUser) :array {
         $userEmailResponse = $this->userService->userEmailExists($providerUser->getEmail());
         return $userEmailResponse['success'] ? $userEmailResponse :
-            $this->userService->create($this->preparedCreateUserData($providerUser));
-    }
-
-    /**
-     * @param object $providerUser
-     * @return array
-     */
-    private function preparedCreateUserData(object $providerUser) :array {
-
-        return [
-            'email' => $providerUser->getEmail(),
-            'username' => empty(!$providerUser->getName()) ? $providerUser->getName()
-                :$providerUser->getNickname(),
-            'role' => USER_ROLE,
-            'status' => ACTIVE_STATUS,
-            'email_verification_code' => randomNumber(6),
-        ];
+            $this->userService->create($this->userService->prepareSocialUserData($providerUser));
     }
 
     /**

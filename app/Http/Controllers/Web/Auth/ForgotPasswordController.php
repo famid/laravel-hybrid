@@ -10,8 +10,8 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
-class ForgotPasswordController extends Controller
-{
+class ForgotPasswordController extends Controller {
+
     /**
      * @var
      */

@@ -4,11 +4,11 @@
 namespace App\Http\Services\Auth\web;
 
 
-use App\Http\Services\Auth\AuthenticationService;
+use App\Http\Services\Auth\BaseLoginService;
 use App\Http\Services\UserService;
 use Exception;
 
-class LoginService extends AuthenticationService {
+class LoginService extends BaseLoginService {
 
     /**
      * @var UserService

@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\Api;
 
-use App\Http\Requests\BaseValidation;
 
-class SignInRequest extends BaseValidation
-{
+use App\Http\Requests\Boilerplate\BaseValidation;
+
+class SignInRequest extends BaseValidation {
     /**
      * Determine if the user is authorized to make this request.
      *

@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepository extends BaseRepository  {
+
     /**
      * UserRepository constructor.
      * @param User $user

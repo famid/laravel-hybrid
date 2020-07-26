@@ -2,8 +2,8 @@
 
 namespace App\Http\Repository;
 
-abstract class BaseRepository
-{
+abstract class BaseRepository {
+
     /**
      * @var
      */

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Services;
+namespace App\Http\Services\Boilerplate;
 
 
 abstract class ResponseService {
@@ -50,5 +50,27 @@ abstract class ResponseService {
             __($message);
 
         return $this->response;
+    }
+
+    /**
+     * @param object $user
+     * @param int $token
+     * @param string $message
+     * @return array
+     */
+    public function authenticateApiResponse(object $user, int $token, string $message) {
+        $authData = [
+            'email_verified' => false,
+            'access_token' => $token,
+            'access_type' => "Bearer",
+            'user_data' => [
+                'name' => $user->first_name . ' ' . $user->last_name,
+                'email' => $user->email,
+                'username' => $user->username,
+                'phone' => $user->phone
+            ]
+        ];
+
+        return $this->response($authData)->success($message);
     }
 }

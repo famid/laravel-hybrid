@@ -5,8 +5,8 @@ namespace App\Http\Services\Auth\PasswordAndVerification;
 
 
 use App\Http\Repository\UserRepository;
+use App\Http\Services\Boilerplate\BaseService;
 use App\Http\Services\UserService;
-use App\Http\Services\BaseService;
 use Exception;
 
 class VerificationService extends BaseService {
