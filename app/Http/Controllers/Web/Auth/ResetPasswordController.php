@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class ResetPasswordController extends Controller {
+
     /**
      * @var
      */
