@@ -94,7 +94,7 @@ class UserService extends BaseService {
             ['user_id' => $userId], ['device_type' => $deviceType, 'device_token' => $deviceToken]
         );
 
-        return (!$storeMobileDeviceResponse || !isset($storeMobileDeviceResponse)) ? false : true;
+        return (!$storeMobileDeviceResponse || !isset($storeMobileDeviceResponse));
     }
 
     /**
