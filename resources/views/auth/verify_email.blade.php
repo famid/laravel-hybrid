@@ -7,7 +7,7 @@
                 <div class="row section-separator xs-column-reverse vertical-middle-content" style="padding-top: 17%">
                     <div class="col-sm-6">
                         <h1 class="mb-3 text-18">{{__('Verify Email')}}</h1>
-                        <form method="POST" action="{{ route('verifyEmailProcess') }}">
+                        <form method="POST" action="{{ route('web.auth.verify_email_process') }}">
                            @csrf
                             <div class="form-group">
                                 <label for="email">Email address</label>
