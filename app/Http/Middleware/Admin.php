@@ -21,7 +21,7 @@ class Admin {
             return $next($request);
         }elseif (Auth::check() && Auth::user()->role == USER_ROLE) {
 
-            return redirect(route('user.dashboard'));
+            return redirect(route('web.user.dashboard'));
         }
         Auth::logout();
 

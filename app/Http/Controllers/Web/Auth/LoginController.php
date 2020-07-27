@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Web\Auth;
 
 use Illuminate\Http\RedirectResponse as RedirectResponseAlias;
 use Illuminate\Contracts\Foundation\Application;
-use App\Http\Services\Auth\Web\LogoutService;
+use App\Http\Services\Auth\web\LogoutService;
 use App\Http\Services\Auth\web\LoginService;
 use App\Http\Requests\Web\SignInRequest;
 use Illuminate\Contracts\View\Factory;
@@ -47,13 +47,13 @@ class LoginController extends Controller {
      * @return RedirectResponseAlias
      */
     public function signInProcess(SignInRequest $request) {
-        return $this->webResponse($this->loginService->signIn($request), 'admin.dashboard');
+        return $this->webResponse($this->loginService->signIn($request), 'web.admin.dashboard');
     }
 
     /**
      * @return RedirectResponseAlias
      */
     public function signOut() {
-        return $this->webResponse($this->logoutService->logout(), 'signIn');
+        return $this->webResponse($this->logoutService->logout(), 'web.auth.sign_in');
     }
 }
