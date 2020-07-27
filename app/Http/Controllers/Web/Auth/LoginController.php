@@ -1,14 +1,16 @@
 <?php
 
+
 namespace App\Http\Controllers\Web\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Services\Auth\Web\LogoutService;
+
+use Illuminate\Http\RedirectResponse as RedirectResponseAlias;
 use Illuminate\Contracts\Foundation\Application;
+use App\Http\Services\Auth\Web\LogoutService;
 use App\Http\Services\Auth\web\LoginService;
 use App\Http\Requests\Web\SignInRequest;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\RedirectResponse as RedirectResponseAlias;
+use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
 class LoginController extends Controller {
@@ -17,6 +19,7 @@ class LoginController extends Controller {
      * @var LoginService
      */
     protected $loginService;
+
     /**
      * @var LogoutService
      */
@@ -36,7 +39,6 @@ class LoginController extends Controller {
      * @return Application|Factory|View
      */
     public function signIn() {
-
         return view('auth.login');
     }
 
@@ -45,9 +47,7 @@ class LoginController extends Controller {
      * @return RedirectResponseAlias
      */
     public function signInProcess(SignInRequest $request) {
-        $response = $this->loginService->signIn($request);
-
-        return $this->webResponse($response, 'admin.dashboard');
+        return $this->webResponse($this->loginService->signIn($request), 'admin.dashboard');
     }
 
     /**

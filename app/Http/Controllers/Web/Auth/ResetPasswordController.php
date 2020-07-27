@@ -1,20 +1,22 @@
 <?php
 
+
 namespace App\Http\Controllers\Web\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Web\PasswordChangeRequest;
-use App\Http\Requests\Web\ResetPasswordRequest;
+
 use App\Http\Services\Auth\PasswordAndVerification\ResetPasswordService;
+use App\Http\Requests\Web\PasswordChangeRequest;
 use Illuminate\Contracts\Foundation\Application;
+use App\Http\Requests\Web\ResetPasswordRequest;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
 class ResetPasswordController extends Controller {
 
     /**
-     * @var
+     * @var ResetPasswordService
      */
     protected $resetPasswordService;
 
@@ -29,20 +31,16 @@ class ResetPasswordController extends Controller {
     /**
      * @return Application|Factory|View
      */
-    public function resetPasswordView() {
-
+    public function resetPassword() {
         return view('auth.reset_password');
     }
-
 
     /**
      * @param ResetPasswordRequest $request
      * @return RedirectResponse
      */
-    public function resetPassword(ResetPasswordRequest $request) {
-        $response = $this->resetPasswordService->resetPasswordProcess($request);
-
-        return $this->webResponse($response, 'signIn');
+    public function resetPasswordProcess(ResetPasswordRequest $request) {
+        return $this->webResponse($this->resetPasswordService->resetPasswordProcess($request), 'signIn');
     }
 
     /**
@@ -50,8 +48,6 @@ class ResetPasswordController extends Controller {
      * @return RedirectResponse
      */
     public function passwordChangeProcess(PasswordChangeRequest $request) {
-        $response = $this->resetPasswordService->changePassword($request);
-
-        return $this->webResponse($response);
+        return $this->webResponse($this->resetPasswordService->changePassword($request));
     }
 }
