@@ -4,6 +4,9 @@
     * AUTHENTICATION API
     * ---------------------------------------------------------------------------------------------------------
     * */
+
+use Illuminate\Support\Facades\Route;
+
 Route::group(['namespace' => 'Api\Auth'] , function () {
     Route::post('sign-up-process', "RegisterController@signUpProcess")->name('api.auth.sign_up_process');
     Route::post('sign-in-process', "LoginController@signInProcess")->name('api.auth.sign_in_process');
