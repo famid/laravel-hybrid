@@ -38,6 +38,6 @@ class VerificationController extends Controller {
      * @return RedirectResponse
      */
     public function verifyEmailProcess($token) {
-        return $this->webResponse($this->verificationService->verifyEmailByLink($token),'signIn');
+        return $this->webResponse($this->verificationService->verifyEmailByLink($token),'web.auth.sign_in');
     }
 }

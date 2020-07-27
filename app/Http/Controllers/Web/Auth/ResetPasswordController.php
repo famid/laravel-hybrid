@@ -40,7 +40,7 @@ class ResetPasswordController extends Controller {
      * @return RedirectResponse
      */
     public function resetPasswordProcess(ResetPasswordRequest $request) {
-        return $this->webResponse($this->resetPasswordService->resetPasswordProcess($request), 'signIn');
+        return $this->webResponse($this->resetPasswordService->resetPasswordProcess($request), 'web.auth.sign_in');
     }
 
     /**

@@ -34,5 +34,5 @@ Route::group(['namespace' => 'Web\Auth'] , function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('sign-out', 'Web\Auth\LoginController@signOut')->name('web.auth.signOut');
+    Route::get('sign-out', 'Web\Auth\LoginController@signOut')->name('web.auth.sign_out');
 });
