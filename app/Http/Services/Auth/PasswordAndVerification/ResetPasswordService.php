@@ -64,7 +64,6 @@ class ResetPasswordService extends BaseService {
      */
     private function getPasswordResetCode (int $resetPasswordCodeFromUser) :array {
         $validatePasswordResetCodeFromUser = $this->passwordResetCodeIsCorrect($resetPasswordCodeFromUser);
-
         if (!$validatePasswordResetCodeFromUser['success']) return $validatePasswordResetCodeFromUser;
         $passwordResetCode = $validatePasswordResetCodeFromUser['data'];
         $codeExpiredResponse = $this->checkPasswordResetCodeIsExpired($passwordResetCode->created_at);
@@ -78,8 +77,12 @@ class ResetPasswordService extends BaseService {
      * @return array
      */
     private function passwordResetCodeIsCorrect(int $resetPasswordCodeFromUser) :array {
-        $passwordResetCode = $this->passwordResetRepository->getPasswordResetCode($resetPasswordCodeFromUser);
-
+        $passwordResetCode = $this->passwordResetRepository->firstWhere(
+            [
+                'verification_code' => $resetPasswordCodeFromUser,
+                'status' => PENDING_STATUS
+            ]
+        );
         if (is_null($passwordResetCode)) return $this->response()->error('This code is already used once');
         $latestResetCode = $this->passwordResetRepository->getUserLatestResetCode($passwordResetCode->user_id);
         $resetCodeIsNotCorrect = empty($latestResetCode) || empty($passwordResetCode) ||
@@ -116,8 +119,10 @@ class ResetPasswordService extends BaseService {
             DB::beginTransaction();
             if (!$this->updatePassword($userId,$newPassword)) throw new Exception
             ($this->response()->error());
-            $updatePasswordResetStatus = $this->passwordResetRepository->updatePasswordResetStatus(
-                $passwordResetCodeId, ACTIVE_STATUS);
+            $updatePasswordResetStatus = $this->passwordResetRepository->updateWhere(
+                ['id' => $passwordResetCodeId],
+                ['status' => ACTIVE_STATUS]
+            );
             if (!$updatePasswordResetStatus) throw new Exception($this->response()->error());
             DB::commit();
 
@@ -136,12 +141,13 @@ class ResetPasswordService extends BaseService {
      */
     private function updatePassword(int $userId, string $newPassword) {
         try {
-            $updatePasswordResponse = $this->userRepository->updateWhere(
-                ['id' => $userId],
-                ['password' => Hash::make($newPassword)]
-            );
+            $updatePasswordResponse = $this->userRepository->updateWhere([
+                'id' => $userId
+            ], [
+                'password' => Hash::make($newPassword)
+            ]);
 
-            return !$updatePasswordResponse ? false : true;
+            return !$updatePasswordResponse;
         } catch (Exception $e) {
 
             return false;
@@ -158,12 +164,12 @@ class ResetPasswordService extends BaseService {
             if (!Hash::check($request->old_password, $user->password)) return $this->response()
                 ->error('Your given old password is incorrect');
 
-            return !$this->updatePassword($user->id,$request->new_password) ? $this->response()->error() :
+            return !$this->updatePassword($user->id,$request->new_password) ?
+                $this->response()->error() :
                 $this->response()->success('Password is changed successfully');
         } catch (Exception $e) {
 
             return $this->response()->error();
         }
     }
-
 }

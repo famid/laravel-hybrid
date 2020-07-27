@@ -1,19 +1,19 @@
 <?php
 
+
 namespace App\Http\Controllers\Api\Auth;
 
 
-use App\Http\Requests\Api\PasswordChangeRequest;
 use App\Http\Services\Auth\PasswordAndVerification\ResetPasswordService;
+use App\Http\Requests\Api\PasswordChangeRequest;
 use App\Http\Requests\Api\ResetPasswordRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 
-
 class ResetPasswordController extends Controller {
 
     /**
-     * @var
+     * @var ResetPasswordService
      */
     protected $resetPasswordService;
 
@@ -25,21 +25,19 @@ class ResetPasswordController extends Controller {
         $this->resetPasswordService = $resetPasswordService;
     }
 
-
     /**
      * @param ResetPasswordRequest $request
      * @return JsonResponse
      */
-    public function resetPassword(ResetPasswordRequest $request) {
-        $response = $this->resetPasswordService->resetPasswordProcess($request);
-
-        return response()->json($response);
+    public function resetPasswordProcess(ResetPasswordRequest $request) {
+        return response()->json($this->resetPasswordService->resetPasswordProcess($request));
     }
 
-
+    /**
+     * @param PasswordChangeRequest $request
+     * @return JsonResponse
+     */
     public function passwordChangeProcess(PasswordChangeRequest $request) {
-        $response = $this->resetPasswordService->changePassword($request);
-
-        return response()->json($response);
+       return response()->json($this->resetPasswordService->changePassword($request));
     }
 }

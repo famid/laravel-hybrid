@@ -11,10 +11,12 @@ use App\Http\Services\UserService;
 use Exception;
 
 class ForgotPasswordService extends BaseService {
+
     /**
      * @var UserService
      */
     protected $userService;
+
     /**
      * @var PasswordResetRepository
      */
@@ -55,8 +57,12 @@ class ForgotPasswordService extends BaseService {
      * @return array
      */
     private function storePasswordResetCode(object $user, int $randNo) : array {
-        $storePasswordResetResponse = $this->passwordResetRepository
-            ->storePasswordResetCode($user->id, $randNo);
+        $storePasswordResetResponse = $this->passwordResetRepository->create(
+            [
+                'user_id' => $user->id,
+                'verification_code' => $randNo
+            ]
+        );
 
         return !$storePasswordResetResponse ? $this->response()->error() :
             $this->response()->success('Code has been sent to ' . ' ' . $user->email);

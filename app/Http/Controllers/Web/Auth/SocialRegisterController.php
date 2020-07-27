@@ -1,10 +1,12 @@
 <?php
 
+
 namespace App\Http\Controllers\Web\Auth;
 
-use App\Http\Services\Auth\web\SocialRegisterService;
+
 use Illuminate\Http\RedirectResponse as RedirectResponseAlias;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Http\Services\Auth\web\SocialRegisterService;
 use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\Controller;
 
@@ -28,7 +30,6 @@ class SocialRegisterController extends Controller {
      * @return RedirectResponse
      */
     public function redirectToProvider($provider) {
-
         return Socialite::driver($provider)->redirect();
     }
 
@@ -37,9 +38,6 @@ class SocialRegisterController extends Controller {
      * @return RedirectResponseAlias
      */
     public function handleProviderCallback($provider){
-        return $this->webResponse(
-            $this->socialRegisterService->socialRegistration($provider),
-            'admin.dashboard'
-        );
+        return $this->webResponse($this->socialRegisterService->socialRegistration($provider), 'admin.dashboard');
     }
 }

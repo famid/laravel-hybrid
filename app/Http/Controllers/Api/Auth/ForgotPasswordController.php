@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Http\Controllers\Api\Auth;
+
 
 use App\Http\Services\Auth\PasswordAndVerification\ForgotPasswordService;
 use App\Http\Requests\Api\ForgetPasswordRequest;
@@ -10,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 class ForgotPasswordController extends Controller {
 
     /**
-     * @var
+     * @var ForgotPasswordService
      */
     protected $forgotPasswordService;
 
@@ -22,15 +24,11 @@ class ForgotPasswordController extends Controller {
         $this->forgotPasswordService = $forgotPasswordService;
     }
 
-
     /**
      * @param ForgetPasswordRequest $request
      * @return JsonResponse
      */
     public function forgetPasswordEmailSendProcess(ForgetPasswordRequest $request) {
-        $response = $this->forgotPasswordService->sendForgetPasswordEmail($request);
-
-        return response()->json($response);
-
+        return response()->json($this->forgotPasswordService->sendForgetPasswordEmail($request));
     }
 }

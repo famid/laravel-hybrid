@@ -1,19 +1,21 @@
 <?php
 
+
 namespace App\Http\Controllers\Web\Auth;
 
-use App\Http\Controllers\Controller;
+
 use App\Http\Services\Auth\PasswordAndVerification\ForgotPasswordService;
 use App\Http\Requests\Web\ForgetPasswordRequest;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\View\View;
 
 class ForgotPasswordController extends Controller {
 
     /**
-     * @var
+     * @var ForgotPasswordService
      */
     protected $forgotPasswordService;
 
@@ -28,8 +30,7 @@ class ForgotPasswordController extends Controller {
     /**
      * @return Application|Factory|View
      */
-    public function forgetPasswordView() {
-
+    public function forgetPassword() {
         return view('auth.forget_password_email');
     }
 
@@ -38,9 +39,6 @@ class ForgotPasswordController extends Controller {
      * @return RedirectResponse
      */
     public function forgetPasswordEmailSendProcess(ForgetPasswordRequest $request) {
-        $response = $this->forgotPasswordService->sendForgetPasswordEmail($request);
-
-        return $this->webResponse($response, 'resetPasswordView');
-
+        return $this->webResponse($this->forgotPasswordService->sendForgetPasswordEmail($request), 'resetPassword');
     }
 }

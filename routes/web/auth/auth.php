@@ -6,45 +6,30 @@
     * ---------------------------------------------------------------------------------------------------------
     * */
 Route::group(['namespace' => 'Web\Auth'] , function () {
-    Route::get('sign-up', "RegisterController@signUp")
-        ->name('signUp');
+    Route::get('sign-up', "RegisterController@signUp")->name('web.auth.sign_up');
+    Route::post('sign-up-process', "RegisterController@signUpProcess")->name('web.auth.sign_up_process');
 
-    Route::post('sign-up-process', "RegisterController@signUpProcess")
-        ->name('signUpProcess');
+    Route::get('sign-in', "LoginController@signIn")->name('web.auth.sign_in');
+    Route::post('sign-in-process', "LoginController@signInProcess")->name('web.auth.sign_in_process');
 
-    Route::get('sign-in', "LoginController@signIn")
-        ->name('signIn');
+    Route::get('email-verification', "VerificationController@emailVerification")->name('web.auth.email_verification');
+    Route::get('verify-email/{id}',"VerificationController@verifyEmailProcess")->name('web.auth.verify_email_process');
 
-    Route::post('sign-in-process', "LoginController@signInProcess")
-        ->name('signInProcess');
-
-    Route::get('email-verification-view', "VerificationController@emailVerificationView")
-        ->name('emailVerificationView');
-
-    Route::post('verify-email-process', "VerificationController@verifyEmailProcess")
-        ->name('verifyEmailProcess');
-    Route::get('verify-email/{id}',"VerificationController@verifyEmail")->name('verifyEmail');
-
-    Route::get('forget-password', "ForgotPasswordController@forgetPasswordView")
-        ->name('forgetPasswordView');
-
+    Route::get('forget-password', "ForgotPasswordController@forgetPassword")->name('web.auth.forget_password');
     Route::post('forget-password-email-send', "ForgotPasswordController@forgetPasswordEmailSendProcess")
-        ->name('forgetPasswordEmailSendProcess');
+        ->name('web.auth.forget_password_email_send_process');
 
-    Route::get('reset-password-view', "ResetPasswordController@resetPasswordView")
-        ->name('resetPasswordView');
-
-    Route::post('reset-password-code', "ResetPasswordController@resetPassword")
-        ->name('resetPassword');
+    Route::get('reset-password', "ResetPasswordController@resetPassword")->name('web.auth.reset_password');
+    Route::post('reset-password-process', "ResetPasswordController@resetPasswordProcess")
+        ->name('web.auth.reset_password_process');
 
     Route::get('sign-in-with-provider/{provider}', 'SocialRegisterController@redirectToProvider')
-        ->name('redirectToProvider');
-    Route::get('/provider/{provider}/callback', 'SocialRegisterController@handleProviderCallback');
+        ->name('web.auth.redirect_to_provider');
+    Route::get('/provider/{provider}/callback', 'SocialRegisterController@handleProviderCallback')
+        ->name('web.auth.handle_provider_callback');
 
 });
 
 Route::group(['middleware' => 'auth'], function () {
-//    Route::get('password-change', 'AuthController@passwordChange')->name('passwordChange');
-//    Route::post('password-change-process', 'AuthController@passwordChangeProcess')->name('passwordChangeProcess');
-    Route::get('sign-out', 'Web\Auth\LoginController@signOut')->name('signOut');
+    Route::get('sign-out', 'Web\Auth\LoginController@signOut')->name('web.auth.signOut');
 });

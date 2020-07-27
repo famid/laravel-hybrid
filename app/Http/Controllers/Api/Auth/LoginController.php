@@ -1,14 +1,15 @@
 <?php
 
+
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Http\Requests\Api\LogoutRequest;
+
+use App\Http\Services\Auth\Api\LogoutService;
 use App\Http\Services\Auth\Api\LoginService;
 use App\Http\Requests\Api\SignInRequest;
+use App\Http\Requests\Api\LogoutRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Services\Auth\Api\LogoutService;
 use Illuminate\Http\JsonResponse;
-
 
 class LoginController extends Controller {
 
@@ -16,6 +17,7 @@ class LoginController extends Controller {
      * @var LoginService
      */
     protected $loginService;
+
     /**
      * @var LogoutService
      */
@@ -35,8 +37,7 @@ class LoginController extends Controller {
      * @param SignInRequest $request
      * @return JsonResponse
      */
-    public function signIn(SignInRequest $request) {
-
+    public function signInProcess(SignInRequest $request) {
         return response()->json($this->loginService->signIn($request));
     }
 
@@ -47,5 +48,4 @@ class LoginController extends Controller {
     public function signOut(LogoutRequest $request) {
         return response()->json($this->logoutService->logout($request));
     }
-
 }
