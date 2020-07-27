@@ -21,7 +21,7 @@ class EmailVerified
             return $next($request);
         }elseif (Auth::check() && Auth::user()->email_verified == PENDING_STATUS) {
 
-            return redirect()->route('emailVerificationView');
+            return redirect()->route('web.auth.email_verification');
         }
         Auth::logout();
 

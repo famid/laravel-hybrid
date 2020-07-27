@@ -158,7 +158,7 @@
                     </div>
                     <a class="dropdown-item">Account settings</a>
                     <a class="dropdown-item">Billing history</a>
-                    <a class="dropdown-item" href="{{route('signOut')}}">Sign out</a>
+                    <a class="dropdown-item" href="{{route('web.auth.sign_out')}}">Sign out</a>
                 </div>
             </div>
         </div>
