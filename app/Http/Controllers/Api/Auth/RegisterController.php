@@ -1,11 +1,12 @@
 <?php
 
+
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Http\Controllers\Controller;
 
 use App\Http\Services\Auth\Api\RegisterService;
 use App\Http\Requests\Api\SignUpRequest;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 
 class RegisterController extends Controller {
@@ -27,9 +28,7 @@ class RegisterController extends Controller {
      * @param SignUpRequest $request
      * @return JsonResponse
      */
-    public function signUp(SignUpRequest $request) {
-        $response = $this->registerService->signUp($request);
-
-        return response()->json($response);
+    public function signUpProcess(SignUpRequest $request) {
+        return response()->json($this->registerService->signUp($request));
     }
 }
