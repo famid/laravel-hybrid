@@ -5,6 +5,9 @@
     * AUTHENTICATION API
     * ---------------------------------------------------------------------------------------------------------
     * */
+
+use Illuminate\Support\Facades\Route;
+
 Route::group(['namespace' => 'Web\Auth'] , function () {
     Route::get('sign-up', "RegisterController@signUp")->name('web.auth.sign_up');
     Route::post('sign-up-process', "RegisterController@signUpProcess")->name('web.auth.sign_up_process');
