@@ -54,13 +54,13 @@ abstract class ResponseService {
 
     /**
      * @param object $user
-     * @param int $token
+     * @param string $token
      * @param string $message
      * @return array
      */
-    public function authenticateApiResponse(object $user, int $token, string $message) {
+    public function authenticateApiResponse(object $user, string $token, string $message) {
         $authData = [
-            'email_verified' => false,
+            'email_verified' => $user->email_verified == 1,
             'access_token' => $token,
             'access_type' => "Bearer",
             'user_data' => [
