@@ -65,28 +65,22 @@
                             </button>
                         </a>
                     </div>
-                    {{--<div class="mt-3 text-center">
-                        <a href="{{route('forgetPassword')}}" class="text-muted"><u>Forgot Password?</u></a>
-                    </div>--}}
                 </div>
             </div>
             <div class="col-md-12 text-center " style="background-size: cover;">
                 <div class="p-4 auth-right">
-                    <a class="btn btn-rounded btn-outline-primary btn-outline-email btn-block btn-icon-text" href="signup.html">
-                        <i class="i-Mail-with-At-Sign"></i> Sign up with Email
-                    </a>
                     <a class="btn btn-rounded btn-outline-google btn-block btn-icon-text"  href="{{route
                         ('web.auth.redirect_to_provider', ['google'])}}">
-                        <i class="i-Google-Plus"></i> Sign up with Google
+                        <i class="i-Google-Plus"></i> Sign in with Google
                     </a>
                     <a class="btn btn-rounded btn-block btn-icon-text btn-outline-facebook" href="{{route
                         ('web.auth.redirect_to_provider', ['facebook'])}}">
-                        <i class="i-Facebook-2"></i> Sign up with Facebook
+                        <i class="i-Facebook-2"></i> Sign in with Facebook
                     </a>
                     <a class="btn btn-outline-success btn-block btn-icon-text btn-rounded" href="{{route
                         ('web.auth.redirect_to_provider',
                         ['github'])}}">
-                        <i class="fa fa-github" aria-hidden="true"></i> Login with GitHub
+                        <i class="fa fa-github" aria-hidden="true"></i> Sign in with GitHub
                     </a>
                 </div>
             </div>

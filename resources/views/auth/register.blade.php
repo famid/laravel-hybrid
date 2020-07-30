@@ -17,17 +17,13 @@
                     </div>
                     <div class="flex-grow-1"></div>
                     <div class="w-100 mb-4">
-                        <a class="btn btn-outline-primary btn-block btn-icon-text btn-rounded" href="{{route
-                    ('web.auth.redirect_to_provider', ['email'])}}">
-                            <i class="i-Mail-with-At-Sign"></i> Sign in with Email
-                        </a>
                         <a class="btn btn-outline-google btn-block btn-icon-text btn-rounded" href="{{route
                     ('web.auth.redirect_to_provider', ['google'])}}">
-                            <i class="i-Google-Plus"></i> Sign in with Google
+                            <i class="i-Google-Plus"></i> Sign Up with Google
                         </a>
                         <a class="btn btn-outline-facebook btn-block btn-icon-text btn-rounded" href="{{route
                     ('web.auth.redirect_to_provider', ['facebook'])}}">
-                            <i class="i-Facebook-2"></i> Sign in with Facebook
+                            <i class="i-Facebook-2"></i> Sign Up with Facebook
                         </a>
                         <a class="btn btn-outline-success btn-block btn-icon-text btn-rounded" href="{{route
                     ('web.auth.redirect_to_provider',
