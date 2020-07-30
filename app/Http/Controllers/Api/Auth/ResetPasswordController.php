@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 
-use App\Http\Services\Auth\PasswordAndVerification\ResetPasswordService;
+use App\Http\Services\Auth\Password\ResetPasswordService;
 use App\Http\Requests\Api\PasswordChangeRequest;
 use App\Http\Requests\Api\ResetPasswordRequest;
 use App\Http\Controllers\Controller;

@@ -4,13 +4,14 @@
 @section('content')
 
     <div class="auth-layout-wrap" style="
-            background-image: url({{asset('images/images.jpeg') }});
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover; ">
+            {{--background-image: url({{asset('images/images.jpeg') }});--}}
+            /*background-position: center;*/
+            /*background-repeat: no-repeat;*/
+            /*background-size: cover; */
+        ">
         <div class="auth-content">
             <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="p-4">
                             <div class="auth-logo text-center mb-4">
                                 <img src="" alt="">

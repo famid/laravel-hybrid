@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 
-use App\Http\Services\Auth\PasswordAndVerification\ForgotPasswordService;
+use App\Http\Services\Auth\Password\ForgotPasswordService;
 use App\Http\Requests\Api\ForgetPasswordRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;

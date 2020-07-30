@@ -15,7 +15,7 @@ Route::group(['namespace' => 'Web\Auth'] , function () {
     Route::get('sign-in', "LoginController@signIn")->name('web.auth.sign_in');
     Route::post('sign-in-process', "LoginController@signInProcess")->name('web.auth.sign_in_process');
 
-    Route::get('email-verification', "VerificationController@emailVerification")->name('web.auth.email_verification');
+//    Route::get('email-verification', "VerificationController@emailVerificationView")->name('web.auth.email_verification');
     Route::get('verify-email/{id}',"VerificationController@verifyEmailProcess")->name('web.auth.verify_email_process');
 
     Route::get('forget-password', "ForgotPasswordController@forgetPassword")->name('web.auth.forget_password');

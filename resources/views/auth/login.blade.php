@@ -3,12 +3,13 @@
 
 @section('content')
     <div class="auth-layout-wrap" style="
-            background-image: url({{asset('images/images.jpeg') }});
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover; ">
+{{--            background-image: url({{asset('images/images.jpeg') }});--}}
+            /*background-position: center;*/
+            /*background-repeat: no-repeat;*/
+            /*background-size: cover; */
+        ">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="p-4">
                     <div class="auth-logo text-center mb-4">
                         <img src="assets/images/logo.png" alt="">
@@ -69,8 +70,8 @@
                     </div>--}}
                 </div>
             </div>
-            <div class="col-md-6 text-center " style="background-size: cover;">
-                <div class="pr-3 auth-right">
+            <div class="col-md-12 text-center " style="background-size: cover;">
+                <div class="p-4 auth-right">
                     <a class="btn btn-rounded btn-outline-primary btn-outline-email btn-block btn-icon-text" href="signup.html">
                         <i class="i-Mail-with-At-Sign"></i> Sign up with Email
                     </a>

@@ -41,14 +41,16 @@ class RegisterService extends BaseService {
             $createUserResponse = $this->userService->create(
                 $this->userService->prepareUserData($request, randomNumber(6))
             );
-            if (!$createUserResponse['success']) return $createUserResponse;
-            DB::commit();
-
-            return $this->mobileDeviceService->saveClientDeviceAndBuildResponse(
+            if (!$createUserResponse['success']) throw new Exception($createUserResponse['message']);
+            $mobileDeviceResponse = $this->mobileDeviceService->saveClientDeviceAndBuildResponse(
                 $createUserResponse["data"],
                 $request,
                 __("Sign up successful")
             );
+            if (!$mobileDeviceResponse['success']) throw new Exception($mobileDeviceResponse['message']);
+            DB::commit();
+
+            return $mobileDeviceResponse;
         } catch (Exception $e) {
             DB::rollBack();
 

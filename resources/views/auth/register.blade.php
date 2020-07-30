@@ -4,13 +4,14 @@
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 @section('content')
     <div class="auth-layout-wrap" style="
-            background-image: url({{asset('images/images.jpeg') }});
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover; ">
+{{--            background-image: url({{asset('images/images.jpeg') }});--}}
+            /*background-position: center;*/
+            /*background-repeat: no-repeat;*/
+            /*background-size: cover; */
+        ">
         <div class="row">
-            <div class="col-md-6 text-center " {{--style="background-size: cover;background-image: url(./assets/images/photo-long-3.jpg)"--}}>
-                <div class="pl-3 auth-right">
+            <div class="col-md-12 text-center " {{--style="background-size: cover;background-image: url(./assets/images/photo-long-3.jpg)"--}}>
+                <div class="p-4 auth-right">
                     <div class="auth-logo text-center mt-4">
                         <img src="{{asset("assets/images/logo.png")}}" alt="logo">
                     </div>
@@ -38,7 +39,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="p-4">
 
                     <h1 class="mb-3 text-18">Sign Up</h1>
