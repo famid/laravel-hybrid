@@ -5,65 +5,69 @@ namespace App\Http\Services\Auth\PasswordAndVerification;
 
 
 use App\Http\Repository\PasswordResetRepository;
-use App\Http\Repository\UserRepository;
 use App\Http\Services\Boilerplate\BaseService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use App\Http\Services\UserService;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class ResetPasswordService extends BaseService {
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
+
     /**
      * @var PasswordResetRepository
      */
     protected $passwordResetRepository;
 
+    /**
+     * @var UserService
+     */
+    private $userService;
 
     /**
      * ResetPasswordService constructor.
-     * @param UserRepository $userRepository
+     * @param UserService $userService
      * @param PasswordResetRepository $passwordResetRepository
      */
-    public function __construct(UserRepository $userRepository,
-                                PasswordResetRepository $passwordResetRepository) {
-        $this->userRepository = $userRepository;
+    public function __construct(UserService $userService, PasswordResetRepository $passwordResetRepository) {
+        $this->userService = $userService;
         $this->passwordResetRepository = $passwordResetRepository;
     }
 
     /**
-     * this method first get the password_reset id then  get the user id then call password reset
+     * this method first check user email is exists or not by calling the method "userEmailExists" if exists
+     * then set user id then check the user given password reset code is correct by calling the method
+     * "getPasswordResetCode"  if it's correct then reset the password by calling the method "resetPassword"
      *
-     * method
      * @param object $request
      * @return array
      */
     public function resetPasswordProcess (object $request) {
         try {
-            $passwordResetCodeResponse= $this->getPasswordResetCode($request->reset_password_code);
-            if(!$passwordResetCodeResponse['success']) return $passwordResetCodeResponse;
-            $passwordResetCode = $passwordResetCodeResponse['data'];
-            $user = $this->userRepository->firstWhere(['id' => $passwordResetCode->user_id]);
+            $userResponse = $this->userService->userEmailExists($request->email);
+            if (!$userResponse['success']) return $userResponse;
+            $userId = $userResponse['data']->id;
+            $passwordResetCodeResponse= $this->getPasswordResetCode($userId,(int)$request->reset_password_code);
 
-            return empty($user) ? $this->response()->error('No user found'):
-                $this->resetPassword($user->id,$request->new_password, $passwordResetCode->id);
+            return !$passwordResetCodeResponse['success'] ? $passwordResetCodeResponse :
+                $this->resetPassword($userId,$request->new_password, $passwordResetCodeResponse['data']->id);
         } catch (Exception $e) {
 
             return $this->response()->error();
         }
-
     }
 
-    /**
+    /*
+     * @param int $userId
      * @param int $resetPasswordCodeFromUser
      * @return array
      */
-    private function getPasswordResetCode (int $resetPasswordCodeFromUser) :array {
-        $validatePasswordResetCodeFromUser = $this->passwordResetCodeIsCorrect($resetPasswordCodeFromUser);
+    private function getPasswordResetCode (int $userId, int $resetPasswordCodeFromUser) :array {
+        $validatePasswordResetCodeFromUser = $this->passwordResetCodeIsCorrect(
+            $userId,
+            $resetPasswordCodeFromUser
+        );
         if (!$validatePasswordResetCodeFromUser['success']) return $validatePasswordResetCodeFromUser;
         $passwordResetCode = $validatePasswordResetCodeFromUser['data'];
         $codeExpiredResponse = $this->checkPasswordResetCodeIsExpired($passwordResetCode->created_at);
@@ -73,18 +77,24 @@ class ResetPasswordService extends BaseService {
     }
 
     /**
+     * first query for user given reset password code  is exits in database  after
+     * fetch the latest reset password code for user  by user id then
+     * check  reset password code from user  is match with latest reset password code
+     *
+     * @param int $userId
      * @param int $resetPasswordCodeFromUser
      * @return array
      */
-    private function passwordResetCodeIsCorrect(int $resetPasswordCodeFromUser) :array {
+    private function passwordResetCodeIsCorrect(int $userId,int $resetPasswordCodeFromUser) :array {
         $passwordResetCode = $this->passwordResetRepository->firstWhere(
             [
+                'user_id' => $userId,
                 'verification_code' => $resetPasswordCodeFromUser,
                 'status' => PENDING_STATUS
             ]
         );
         if (is_null($passwordResetCode)) return $this->response()->error('This code is already used once');
-        $latestResetCode = $this->passwordResetRepository->getUserLatestResetCode($passwordResetCode->user_id);
+        $latestResetCode = $this->passwordResetRepository->getUserLatestResetCode($userId);
         $resetCodeIsNotCorrect = empty($latestResetCode) || empty($passwordResetCode) ||
             $latestResetCode->verification_code != $resetPasswordCodeFromUser;
 
@@ -101,12 +111,12 @@ class ResetPasswordService extends BaseService {
         $totalDuration = Carbon::now()->diffInMinutes($createAt);
 
         return $totalDuration > EXPIRE_TIME_OF_FORGET_PASSWORD_CODE ?
-            $this->response()->error('Your code has been expired. Please give your code with in'):
+            $this->response()->error('Your code has been expired. Please give your code with in 10 minutes'):
             $this->response()->success();
     }
 
     /**
-     * This method first update the password in user table and then update the status(active status)
+     * This method first update the password in user table and then update the status(set active status)
      * in password_reset table
      *
      * @param int $userId
@@ -117,8 +127,8 @@ class ResetPasswordService extends BaseService {
     private function resetPassword(int $userId, string $newPassword, int $passwordResetCodeId) : array {
         try {
             DB::beginTransaction();
-            if (!$this->updatePassword($userId,$newPassword)) throw new Exception
-            ($this->response()->error());
+            if (!$this->userService->updatePassword($userId,$newPassword)) throw new Exception(
+                $this->response()->error());
             $updatePasswordResetStatus = $this->passwordResetRepository->updateWhere(
                 ['id' => $passwordResetCodeId],
                 ['status' => ACTIVE_STATUS]
@@ -135,26 +145,6 @@ class ResetPasswordService extends BaseService {
     }
 
     /**
-     * @param int $userId
-     * @param string $newPassword
-     * @return bool
-     */
-    private function updatePassword(int $userId, string $newPassword) {
-        try {
-            $updatePasswordResponse = $this->userRepository->updateWhere([
-                'id' => $userId
-            ], [
-                'password' => Hash::make($newPassword)
-            ]);
-
-            return !$updatePasswordResponse;
-        } catch (Exception $e) {
-
-            return false;
-        }
-    }
-
-    /**
      * @param object $request
      * @return array
      */
@@ -164,7 +154,7 @@ class ResetPasswordService extends BaseService {
             if (!Hash::check($request->old_password, $user->password)) return $this->response()
                 ->error('Your given old password is incorrect');
 
-            return !$this->updatePassword($user->id,$request->new_password) ?
+            return !$this->userService->updatePassword($user->id,$request->new_password) ?
                 $this->response()->error() :
                 $this->response()->success('Password is changed successfully');
         } catch (Exception $e) {
