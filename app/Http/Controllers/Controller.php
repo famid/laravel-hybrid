@@ -10,8 +10,8 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\RedirectResponse;
 
-class Controller extends BaseController
-{
+class Controller extends BaseController {
+
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
@@ -20,12 +20,15 @@ class Controller extends BaseController
     protected $errorMessage = "Something went wrong";
 
     /**
-     * @param $message
+     * @param string $message
+     * @param null $data
      * @return array
      */
-    public function successResponse(string $message="") {
-
-        return ["success" => $message];
+    public function successResponse(string $message="", $data = null) {
+        return [
+            "success" => $message,
+            'data' => !is_null($data) ? $data : null
+        ];
     }
 
     /**
@@ -33,7 +36,6 @@ class Controller extends BaseController
      * @return string[]
      */
     public function errorResponse(string $message="") {
-
         return ["error" => empty($message) ? __($this->errorMessage) : $message];
     }
 
@@ -43,8 +45,7 @@ class Controller extends BaseController
      * @param string|null $failedRoute
      * @return RedirectResponse
      */
-    public function webResponse(array $serviceResponse, string $successRoute = null,
-                                string $failedRoute = null){
+    public function webResponse(array $serviceResponse, string $successRoute = null, string $failedRoute = null){
         $redirection = redirect();
         if (!$serviceResponse['success']) {
             $redirection =!is_null($failedRoute) ? $redirection->route($failedRoute) : $redirection->back();
@@ -53,6 +54,6 @@ class Controller extends BaseController
         }
        $redirection =!is_null($successRoute) ? $redirection->route($successRoute) : $redirection->back();
 
-       return  $redirection->with($this->successResponse($serviceResponse["message"]));
+       return  $redirection->with($this->successResponse($serviceResponse["message"],$serviceResponse['data']));
     }
 }
