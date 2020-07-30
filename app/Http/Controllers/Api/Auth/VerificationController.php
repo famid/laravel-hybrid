@@ -4,7 +4,8 @@
 namespace App\Http\Controllers\Api\Auth;
 
 
-use App\Http\Services\Auth\PasswordAndVerification\VerificationService;
+use App\Http\Requests\Api\ForgetPasswordRequest;
+use App\Http\Services\Auth\Api\VerificationService;
 use App\Http\Requests\Api\VerifyEmailRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
@@ -29,6 +30,14 @@ class VerificationController extends Controller {
      * @return JsonResponse
      */
     public function verifyEmailProcess(VerifyEmailRequest $request) {
-        return response()->json($this->verificationService->verifyEmailByCode($request));
+        return response()->json($this->verificationService->verifyEmailProcess($request));
+    }
+
+    /**
+     * @param ForgetPasswordRequest $request
+     * @return JsonResponse
+     */
+    public function resendEmailVerificationCode(ForgetPasswordRequest $request) {
+        return response()->json($this->verificationService->resendEmailVerificationCode($request));
     }
 }
