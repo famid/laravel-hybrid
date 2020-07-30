@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    @include('layouts.header')
+    @include('admin.layouts.header')
 <body class="text-left">
     <div class="app-admin-wrap layout-sidebar-large clearfix">
         <!--=============== Top Bar Start ================-->
