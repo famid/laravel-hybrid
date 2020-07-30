@@ -21,13 +21,11 @@ class Controller extends BaseController {
 
     /**
      * @param string $message
-     * @param null $data
      * @return array
      */
-    public function successResponse(string $message="", $data = null) {
+    public function successResponse(string $message="") {
         return [
-            "success" => $message,
-            'data' => !is_null($data) ? $data : null
+            "success" => $message
         ];
     }
 
@@ -40,23 +38,45 @@ class Controller extends BaseController {
     }
 
     /**
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     * ------------------------------------------------------------------------------------------------------------
+     * If serviceResponse[success] == false
+     * if the route is given redirect to the route, or redirect back
+     *
+     * If serviceResponse[success] == true
+     * if the route is given redirect to the route, or redirect back
+     * -----------------------------------------------------------------------------------------------------------
+     *
      * @param array $serviceResponse
      * @param string|null $successRoute
      * @param string|null $failedRoute
+     * @param array|null $successRouteParameter
+     * @param array|null $failedRouteParameter
      * @return RedirectResponse
      */
-    public function webResponse(array $serviceResponse, string $successRoute = null, string $failedRoute = null){
+    public function webResponse(array $serviceResponse, string $successRoute = null, string $failedRoute = null
+        , array $successRouteParameter = [], array $failedRouteParameter = []){
         $redirection = redirect();
+
         if (!$serviceResponse['success']) {
-            // TODO: add route parameter, pass parameter in webResponse method and insert parameter if not null
-            $redirection =!is_null($failedRoute) ? $redirection->route($failedRoute) : $redirection->back();
+            $redirection =!is_null($failedRoute) ?
+                $redirection->route($failedRoute, $failedRouteParameter) :
+                $redirection->back();
 
             return  $redirection->with($this->errorResponse($serviceResponse["message"]));
         }
-        $data = !is_null($serviceResponse['data']) ? $serviceResponse['data'] : null;
-        $redirection =!is_null($successRoute) ? $redirection->route($successRoute,['data' => $data]) :
+
+        $redirection =!is_null($successRoute) ?
+            $redirection->route($successRoute, $successRouteParameter) :
             $redirection->back();
-        // TODO: remove $serviceResponse['data']
-        return  $redirection->with($this->successResponse($serviceResponse["message"], $serviceResponse['data']));
+
+        return  $redirection->with($this->successResponse($serviceResponse["message"]));
     }
 }
