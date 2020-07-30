@@ -4,7 +4,8 @@
 namespace App\Http\Controllers\Web\Auth;
 
 
-use App\Http\Services\Auth\Web\VerificationService;
+
+use App\Http\Services\Auth\web\VerificationService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -13,9 +14,7 @@ use Illuminate\View\View;
 
 class VerificationController extends Controller {
 
-    /**
-     * @var VerificationService
-     */
+
     protected $verificationService;
 
     /**

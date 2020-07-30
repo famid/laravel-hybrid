@@ -16,13 +16,13 @@ Route::group(['namespace' => 'Web\Auth'] , function () {
     Route::post('sign-in-process', "LoginController@signInProcess")->name('web.auth.sign_in_process');
 
 //    Route::get('email-verification', "VerificationController@emailVerificationView")->name('web.auth.email_verification');
-    Route::get('verify-email/{id}',"VerificationController@verifyEmailProcess")->name('web.auth.verify_email_process');
+    Route::get('verify-email/{token}',"VerificationController@verifyEmailProcess")->name('web.auth.verify_email_process');
 
     Route::get('forget-password', "ForgotPasswordController@forgetPassword")->name('web.auth.forget_password');
     Route::post('forget-password-email-send', "ForgotPasswordController@forgetPasswordEmailSendProcess")
         ->name('web.auth.forget_password_email_send_process');
 
-    Route::get('reset-password', "ResetPasswordController@resetPassword")->name('web.auth.reset_password');
+    Route::get('reset-password/{email}', "ResetPasswordController@resetPassword")->name('web.auth.reset_password');
     Route::post('reset-password-process', "ResetPasswordController@resetPasswordProcess")
         ->name('web.auth.reset_password_process');
 

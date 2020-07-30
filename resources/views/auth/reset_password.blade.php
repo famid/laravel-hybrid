@@ -3,10 +3,7 @@
 @section('content')
     <body class="text-left">
     <div class="auth-layout-wrap" style="
-            background-image: url({{asset('images/images.jpeg') }});
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover; ">
+            background-image: url({{asset('images/images.jpeg') }});">
         <div class="auth-content">
             <div class="row">
                     <div class="col-md-6">
@@ -17,12 +14,11 @@
                             <h1 class="mb-3 text-18">Forgot Password</h1>
                             <form method="POST" action="{{ route('web.auth.reset_password_process') }}">
                                 @csrf
-                                @if(Session::has('data') and !is_null(Session::has('data')) )
+                                @if(isset($email))
                                     <div class="form-group">
-                                        <label for="email">Email address</label>
                                         <label>
                                             <input name = "email" type="hidden" class="form-control
-                                            form-control-rounded" value = "{{Session::get('data')}}">
+                                            form-control-rounded" value = "{{$email}}">
                                         </label>
                                     </div>
                                 @endif

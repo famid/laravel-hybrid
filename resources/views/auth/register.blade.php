@@ -4,10 +4,7 @@
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 @section('content')
     <div class="auth-layout-wrap" style="
-{{--            background-image: url({{asset('images/images.jpeg') }});--}}
-            /*background-position: center;*/
-            /*background-repeat: no-repeat;*/
-            /*background-size: cover; */
+            background-image: url({{asset('images/images.jpeg') }});
         ">
         <div class="row">
             <div class="col-md-12 text-center " {{--style="background-size: cover;background-image: url(./assets/images/photo-long-3.jpg)"--}}>
