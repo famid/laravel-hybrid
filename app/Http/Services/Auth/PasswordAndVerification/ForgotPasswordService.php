@@ -39,8 +39,9 @@ class ForgotPasswordService extends BaseService {
     public function sendForgetPasswordEmail(object $request) : array {
         try {
             $userResponse = $this->userService->userEmailExists($request->email);
-
-            if (!$userResponse) return $userResponse;
+            if (!$userResponse['success']) return $userResponse;
+            if(is_null($userResponse['data']->password))
+                return $this->response()->error("you are only a social user you don't have any password");
             $randNo = randomNumber(6);
             dispatch(new SendForgetPasswordEmailJob($randNo, $userResponse['data']));
 
@@ -65,7 +66,6 @@ class ForgotPasswordService extends BaseService {
         );
 
         return !$storePasswordResetResponse ? $this->response()->error() :
-            $this->response()->success('Code has been sent to ' . ' ' . $user->email);
+            $this->response($user->email)->success('Code has been sent to ' . ' ' . $user->email);
     }
-
 }

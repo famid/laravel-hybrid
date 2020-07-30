@@ -14,10 +14,10 @@ class OAuthAccessTokenService extends BaseService {
     }
 
     /**
-     * @param int $tokenId
+     * @param string $tokenId
      * @return bool
      */
-    public function delete(int $tokenId) {
+    public function delete(string $tokenId) {
         $deleteResponse = $this->repository->deleteWhere(['id' => $tokenId]);
 
         return $deleteResponse > 0;
