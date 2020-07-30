@@ -25,6 +25,6 @@ class Admin {
         }
         Auth::logout();
 
-        return redirect()->route('signIn')->with(['error' => __('You are not authorized')]);
+        return redirect()->route('web.auth.sign_in')->with(['error' => __('You are not authorized')]);
     }
 }

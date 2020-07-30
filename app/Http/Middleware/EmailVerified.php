@@ -21,11 +21,11 @@ class EmailVerified
             return $next($request);
         }elseif (Auth::check() && Auth::user()->email_verified == PENDING_STATUS) {
 
-            return redirect()->route('web.auth.email_verification');
+            return redirect()->route('web.auth.sign_in');
         }
         Auth::logout();
 
-        return redirect()->route('signIn')->with(['error' => __('You are not authorized')]);
+        return redirect()->route('web.auth.sign_in')->with(['error' => __('You are not authorized')]);
 
     }
 }
