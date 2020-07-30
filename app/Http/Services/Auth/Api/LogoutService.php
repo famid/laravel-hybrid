@@ -5,8 +5,8 @@ namespace App\Http\Services\Auth\Api;
 
 
 use App\Http\Services\Boilerplate\BaseService;
-use App\Http\Services\MobileDeviceService;
 use App\Http\Services\OAuthAccessTokenService;
+use App\Http\Services\MobileDeviceService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -37,9 +37,12 @@ class LogoutService extends BaseService {
             if (empty($token)) return $this->response()->error();
             DB::beginTransaction();
             $deleteToken = $this->accessTokenService->delete($token->id);
-            $deleteDevice = $this->mobileDeviceService->deleteMobileDeviceInfo(Auth::id());
-            if (!$deleteToken || !$deleteDevice) throw new Exception();
-
+            $deleteDevice = $this->mobileDeviceService->deleteMobileDeviceInfo(
+                Auth::id(),
+                $request->device_type,
+                $request->device_token
+            );
+            if (!$deleteToken || !$deleteDevice) throw new Exception($this->response()->error());
             DB::commit();
 
             return $this->response()->success('Logged out successfully');

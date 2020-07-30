@@ -46,17 +46,22 @@ class MobileDeviceService extends BaseService {
             ['user_id' => $userId], ['device_type' => $deviceType, 'device_token' => $deviceToken]
         );
 
-        return (!$storeMobileDeviceResponse || !isset($storeMobileDeviceResponse));
+        return isset($storeMobileDeviceResponse);
     }
 
     /**
      * @param int $userId
+     * @param $deviceType
+     * @param $deviceToken
      * @return bool
      */
-    public function deleteMobileDeviceInfo(int $userId) :bool {
-        $deleteResponse = $this->repository->destroy($userId);
+    public function deleteMobileDeviceInfo(int $userId,$deviceType,$deviceToken) :bool {
+        $deleteResponse = $this->repository->deleteWhere([
+            'user_id' => $userId,
+            'device_type' => $deviceType,
+            'device_token' => $deviceToken
+        ]);
 
         return $deleteResponse > 0;
     }
-
 }
