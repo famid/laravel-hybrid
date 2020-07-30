@@ -1,13 +1,7 @@
 @extends('auth.layouts.auth')
-{{--@extends('layouts.app')--}}
 
 @section('content')
-    <div class="auth-layout-wrap" style="
-{{--            background-image: url({{asset('images/images.jpeg') }});--}}
-            /*background-position: center;*/
-            /*background-repeat: no-repeat;*/
-            /*background-size: cover; */
-        ">
+    <div class="auth-layout-wrap" style="">
         <div class="row">
             <div class="col-md-12">
                 <div class="p-4">

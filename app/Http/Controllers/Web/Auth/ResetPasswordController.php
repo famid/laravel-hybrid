@@ -29,10 +29,11 @@ class ResetPasswordController extends Controller {
     }
 
     /**
+     * @param string $email
      * @return Application|Factory|View
      */
-    public function resetPassword() {
-        return view('auth.reset_password');
+    public function resetPassword(string $email) {
+        return view('auth.reset_password',['email' => $email]);
     }
 
     /**

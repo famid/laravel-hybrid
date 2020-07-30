@@ -53,8 +53,9 @@ class Controller extends BaseController {
 
             return  $redirection->with($this->errorResponse($serviceResponse["message"]));
         }
-        // TODO: add route parameter, pass parameter in webResponse method and insert parameter if not null
-        $redirection =!is_null($successRoute) ? $redirection->route($successRoute) : $redirection->back();
+        $data = !is_null($serviceResponse['data']) ? $serviceResponse['data'] : null;
+        $redirection =!is_null($successRoute) ? $redirection->route($successRoute,['data' => $data]) :
+            $redirection->back();
         // TODO: remove $serviceResponse['data']
         return  $redirection->with($this->successResponse($serviceResponse["message"], $serviceResponse['data']));
     }
