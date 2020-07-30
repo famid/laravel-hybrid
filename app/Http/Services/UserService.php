@@ -4,13 +4,14 @@
 namespace App\Http\Services;
 
 
-use App\Http\Repository\UserRepository;
 use App\Http\Services\Boilerplate\BaseService;
+use App\Http\Repository\UserRepository;
 use App\Jobs\SendVerificationEmailJob;
 use Illuminate\Support\Facades\Hash;
 use Exception;
 
 class UserService extends BaseService {
+
     /**
      * UserService constructor.
      * @param UserRepository $userRepository
@@ -89,4 +90,74 @@ class UserService extends BaseService {
         return is_null($user->email_verification_code) && $user->email_verified == ACTIVE_STATUS;
     }
 
+    /**
+     * @param int $userId
+     * @param string $newPassword
+     * @return bool
+     */
+    public function updatePassword(int $userId, string $newPassword) {
+        try {
+            $updatePasswordResponse = $this->repository->updateWhere([
+                'id' => $userId
+            ], [
+                'password' => Hash::make($newPassword)
+            ]);
+
+            return $updatePasswordResponse == 1;
+        } catch (Exception $e) {
+
+            return false;
+        }
+    }
+
+    /**
+     * @param object $user
+     * @param null $emailVerificationCode
+     * @param $status
+     * @return array
+     */
+    public function updateEmailVerificationCodeAndStatus(object $user,$status,$emailVerificationCode = null)
+    :array {
+        try {
+            $updateStatusResponse = $this->repository->updateWhere([
+                'id' => $user->id,
+                'email_verified' => PENDING_STATUS
+            ],[
+                'email_verification_code' => $emailVerificationCode,
+                'email_verified' => $status
+            ]);
+
+            return !$updateStatusResponse ?
+                $this->response()->error():
+                $this->response()->success('Your Email is Verified');
+        } catch (Exception $e) {
+
+            return $this->response()->error();
+        }
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function getUserById (int $id) {
+        $user = $this->repository->find($id);
+
+        return !isset($user) ? $this->response()->error() :
+            $this->response($user)->success();
+    }
+
+    /**
+     * @param string $email
+     * @return array
+     */
+    public function validateUserEmail(string $email) {
+        $userResponse = $this->userEmailExists($email);
+        if (!$userResponse['success']) return $userResponse;
+        $emailVerifiedResponse = $this->checkUserEmailIsVerified($userResponse['data']);
+
+        return $emailVerifiedResponse ?
+            $this->response()->error('your Email is already verified'):
+            $this->response($userResponse['data'])->success();
+    }
 }
