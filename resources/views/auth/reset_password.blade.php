@@ -1,5 +1,4 @@
 @extends('auth.layouts.auth')
-{{--@extends('layouts.app')--}}
 
 @section('content')
     <body class="text-left">
@@ -18,9 +17,20 @@
                             <h1 class="mb-3 text-18">Forgot Password</h1>
                             <form method="POST" action="{{ route('web.auth.reset_password_process') }}">
                                 @csrf
+                                @if(Session::has('data') and !is_null(Session::has('data')) )
+                                    <div class="form-group">
+                                        <label for="email">Email address</label>
+                                        <label>
+                                            <input name = "email" type="hidden" class="form-control
+                                            form-control-rounded" value = "{{Session::get('data')}}">
+                                        </label>
+                                    </div>
+                                @endif
                                 <div class="form-group">
                                     <label for="reset_password_code">{{__('Reset Password Code')}}</label>
-                                    <input name="reset_password_code" id="reset_password_code" class="form-control form-control-rounded" type="text" value="{{ old('reset_password_code') }}">
+                                    <input name="reset_password_code" id="reset_password_code"
+                                           class="form-control form-control-rounded" type="number" value="{{ old
+                                           ('reset_password_code') }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="password">{{__('New Password')}}</label>
