@@ -55,5 +55,4 @@ class RegisterService extends BaseService {
             return $this->response()->error();
         }
     }
-
 }
