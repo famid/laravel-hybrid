@@ -26,7 +26,7 @@ class SignInRequest extends FormRequest
     {
         return [
             'email' => ['required', 'string', 'max:255', new EmailOrUsernameValidation()],
-            'password' => 'required|min:8',
+            'password' => 'required',
         ];
     }
     /**
