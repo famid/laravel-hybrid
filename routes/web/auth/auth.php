@@ -22,7 +22,7 @@ Route::group(['namespace' => 'Web\Auth'] , function () {
     Route::post('forget-password-email-send', "ForgotPasswordController@forgetPasswordEmailSendProcess")
         ->name('web.auth.forget_password_email_send_process');
 
-    Route::get('reset-password/{data}', "ResetPasswordController@resetPassword")->name('web.auth.reset_password');
+    Route::get('reset-password/{email}', "ResetPasswordController@resetPassword")->name('web.auth.reset_password');
     Route::post('reset-password-process', "ResetPasswordController@resetPasswordProcess")
         ->name('web.auth.reset_password_process');
 
