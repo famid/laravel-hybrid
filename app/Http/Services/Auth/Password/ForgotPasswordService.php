@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Services\Auth\PasswordAndVerification;
+namespace App\Http\Services\Auth\Password;
 
 
 use App\Http\Repository\PasswordResetRepository;

@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Web\Auth;
 
 
-use App\Http\Services\Auth\PasswordAndVerification\ResetPasswordService;
+use App\Http\Services\Auth\Password\ResetPasswordService;
 use App\Http\Requests\Web\PasswordChangeRequest;
 use Illuminate\Contracts\Foundation\Application;
 use App\Http\Requests\Web\ResetPasswordRequest;

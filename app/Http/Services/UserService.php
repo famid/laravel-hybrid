@@ -42,7 +42,6 @@ class UserService extends BaseService {
                 :$providerUser->getNickname(),
             'role' => USER_ROLE,
             'status' => ACTIVE_STATUS,
-            'email_verification_code' => randomNumber(6),
         ];
     }
 
@@ -87,7 +86,8 @@ class UserService extends BaseService {
      * @return bool
      */
     public function checkUserEmailIsVerified(object $user) :bool {
-        return is_null($user->email_verification_code) && $user->email_verified == ACTIVE_STATUS;
+        return $user->role == ADMIN_ROLE ||
+            (is_null($user->email_verification_code) && $user->email_verified == ACTIVE_STATUS);
     }
 
     /**
