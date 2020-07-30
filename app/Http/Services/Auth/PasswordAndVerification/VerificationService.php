@@ -4,8 +4,9 @@
 namespace App\Http\Services\Auth\PasswordAndVerification;
 
 
-use App\Http\Repository\UserRepository;
 use App\Http\Services\Boilerplate\BaseService;
+use App\Http\Repository\UserRepository;
+use App\Jobs\SendVerificationEmailJob;
 use App\Http\Services\UserService;
 use Exception;
 
@@ -35,13 +36,12 @@ class VerificationService extends BaseService {
      * @param object $request
      * @return array
      */
-
     public function verifyEmailByCode (object $request) :array {
         try {
             $userResponse = $this->userService->userEmailExists($request->email);
+            if (!$userResponse['success']) return $userResponse;
             $user = $userResponse['data'];
             $emailVerifiedResponse = $this->userService->checkUserEmailIsVerified($user);
-
             if ($emailVerifiedResponse) return $this->response()->error('your Email is already verified');
 
             return $user->email_verification_code != $request->email_verification_code ?
@@ -54,15 +54,37 @@ class VerificationService extends BaseService {
     }
 
     /**
-     * @param object $user
+     * @param object $request
      * @return array
      */
-    private function updateEmailVerificationCodeAndStatus(object $user) :array {
+    public function resendEmailVerificationCode(object $request) :array {
+        $userResponse = $this->userService->userEmailExists($request->email);
+        if (!$userResponse['success']) return $userResponse;
+        $user = $userResponse['data'];
+        $emailVerifiedResponse = $this->userService->checkUserEmailIsVerified($user);
+        if ($emailVerifiedResponse) return $this->response()->error('your Email is already verified');
+        $emailVerificationCode = randomNumber(6);
+        $updateResponse = $this->updateEmailVerificationCodeAndStatus($user,$emailVerificationCode);
+        if(!$updateResponse['success']) return $updateResponse;
+
+        dispatch(new SendVerificationEmailJob($user->email_verification_code, $user))
+            ->onQueue('email-send');
+
+        return $this->response()->success('Email verification code is resend');
+    }
+
+    /**
+     * @param object $user
+     * @param null $emailVerificationCode
+     * @return array
+     */
+    private function updateEmailVerificationCodeAndStatus(object $user,$emailVerificationCode = null) :array {
         $updateStatusResponse = $this->userRepository->updateWhere([
             'id' => $user->id,
             'email_verified' => PENDING_STATUS
         ],[
-            'email_verification_code' => null,'email_verified' => ACTIVE_STATUS
+            'email_verification_code' => $emailVerificationCode,
+            'email_verified' => ACTIVE_STATUS
         ]);
 
         return !$updateStatusResponse ?
@@ -83,5 +105,4 @@ class VerificationService extends BaseService {
             $this->updateEmailVerificationCodeAndStatus($user) :
             $this->response()->error('your Email is already verified');
     }
-
 }
