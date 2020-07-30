@@ -48,12 +48,14 @@ class Controller extends BaseController {
     public function webResponse(array $serviceResponse, string $successRoute = null, string $failedRoute = null){
         $redirection = redirect();
         if (!$serviceResponse['success']) {
+            // TODO: add route parameter, pass parameter in webResponse method and insert parameter if not null
             $redirection =!is_null($failedRoute) ? $redirection->route($failedRoute) : $redirection->back();
 
             return  $redirection->with($this->errorResponse($serviceResponse["message"]));
         }
-       $redirection =!is_null($successRoute) ? $redirection->route($successRoute) : $redirection->back();
-
-       return  $redirection->with($this->successResponse($serviceResponse["message"], $serviceResponse['data']));
+        // TODO: add route parameter, pass parameter in webResponse method and insert parameter if not null
+        $redirection =!is_null($successRoute) ? $redirection->route($successRoute) : $redirection->back();
+        // TODO: remove $serviceResponse['data']
+        return  $redirection->with($this->successResponse($serviceResponse["message"], $serviceResponse['data']));
     }
 }
