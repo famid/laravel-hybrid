@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Services\Auth\web;
+namespace App\Http\Services\Auth\Web;
 
 
 use App\Http\Services\Boilerplate\BaseService;
