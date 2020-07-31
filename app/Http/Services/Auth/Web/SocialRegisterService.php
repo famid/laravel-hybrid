@@ -4,12 +4,12 @@
 namespace App\Http\Services\Auth\Web;
 
 
-use App\Http\Services\Boilerplate\BaseService;
-use App\Http\Services\UserService;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Laravel\Socialite\Facades\Socialite;
 use App\Http\Repository\SocialAccountRepository;
+use App\Http\Services\Boilerplate\BaseService;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Services\UserService;
+use Illuminate\Support\Facades\DB;
 use Exception;
 
 class SocialRegisterService extends BaseService {
@@ -67,7 +67,7 @@ class SocialRegisterService extends BaseService {
     public function checkUserHasAccount (object $providerUser, string $provider) : bool {
         $userHasAccount = $this->socialAccountRepository->getUserAccount($providerUser->getId(), $provider);
 
-         return !isset($userHasAccount);
+         return isset($userHasAccount);
     }
 
     /**
