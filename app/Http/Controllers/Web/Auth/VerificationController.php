@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web\Auth;
 
 
 
-use App\Http\Services\Auth\web\VerificationService;
+use App\Http\Services\Auth\Web\VerificationService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
