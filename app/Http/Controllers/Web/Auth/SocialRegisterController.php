@@ -37,7 +37,7 @@ class SocialRegisterController extends Controller {
      * @param $provider
      * @return RedirectResponseAlias
      */
-    public function handleProviderCallback($provider){
+    public function handleProviderCallback($provider) {
         return $this->webResponse($this->socialRegisterService->socialRegistration($provider), 'web.admin.dashboard');
     }
 }
