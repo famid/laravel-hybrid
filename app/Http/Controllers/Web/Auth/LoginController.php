@@ -54,6 +54,6 @@ class LoginController extends Controller {
      * @return RedirectResponseAlias
      */
     public function signOut() {
-        return $this->webResponse($this->logoutService->logout(), 'Web.auth.sign_in');
+        return $this->webResponse($this->logoutService->logout(), 'web.auth.sign_in');
     }
 }
