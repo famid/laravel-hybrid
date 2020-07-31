@@ -20,7 +20,7 @@ Route::get('/test', 'TestController@test')->name('test');
 Route::get('/test-redirect/{id}', 'TestController@testRedirect')->name('test.redirect');
 // ------------------------------ End Of Test Routes -----------------------
 
-Route::get('/', "Web\Auth\LoginController@signIn")->name('signIn');
+Route::get('/', "Web\Auth\LoginController@signIn")->name('web.auth.sign_in');
 
 
 
