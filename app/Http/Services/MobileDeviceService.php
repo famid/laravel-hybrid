@@ -64,4 +64,23 @@ class MobileDeviceService extends BaseService {
 
         return $deleteResponse > 0;
     }
+
+    /**
+     * @param object $user
+     * @param object $request
+     * @return array
+     */
+    public function saveClientDeviceAndGetToken(object $user, object $request) : array {
+        $createTokenResponse = $user->createToken($request->email)->accessToken;
+        if (empty($createTokenResponse)) return $this->response()->error();
+        $storeMobileDeviceResponse = $this->updateOrCreateMobileDeviceInfo(
+            $user->id,
+            $request->device_type,
+            $request->device_token
+        );
+
+        return !$storeMobileDeviceResponse ?
+            $this->response()->error() :
+            $this->response($createTokenResponse)->success();
+    }
 }

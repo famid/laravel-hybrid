@@ -9,6 +9,10 @@ use App\Http\Services\Boilerplate\BaseService;
 
 class OAuthAccessTokenService extends BaseService {
 
+    /**
+     * OAuthAccessTokenService constructor.
+     * @param OAuthAccessTokenRepository $accessTokenRepository
+     */
     public function __construct(OAuthAccessTokenRepository $accessTokenRepository) {
         $this->repository = $accessTokenRepository;
     }
@@ -17,9 +21,7 @@ class OAuthAccessTokenService extends BaseService {
      * @param string $tokenId
      * @return bool
      */
-    public function delete(string $tokenId) {
-        $deleteResponse = $this->repository->deleteWhere(['id' => $tokenId]);
-
-        return $deleteResponse > 0;
+    public function delete(string $tokenId) :bool {
+        return $this->repository->deleteWhere(['id' => $tokenId]) > 0;
     }
 }

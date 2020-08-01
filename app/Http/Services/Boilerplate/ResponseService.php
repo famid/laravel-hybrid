@@ -73,4 +73,24 @@ abstract class ResponseService {
 
         return $this->response($authData)->success($message);
     }
+
+    /**
+     * @param object $user
+     * @param string $token
+     * @param string $message
+     * @return array
+     */
+    public function socialAuthenticateApiResponse (object $user, string $token, string $message) {
+        $authData = [
+            'email_verified' => $user->email_verified == 1,
+            'access_token' => $token,
+            'access_type' => "Bearer",
+            'user_data' => [
+                'email' => $user->email,
+                'username' => $user->username,
+            ]
+        ];
+
+        return $this->response($authData)->success($message);
+    }
 }

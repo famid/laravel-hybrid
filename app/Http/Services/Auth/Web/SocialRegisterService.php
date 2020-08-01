@@ -4,33 +4,26 @@
 namespace App\Http\Services\Auth\Web;
 
 
-use App\Http\Repository\SocialAccountRepository;
+use App\Http\Services\Auth\BaseSocialRegisterService;
 use App\Http\Services\Boilerplate\BaseService;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Services\UserService;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
 class SocialRegisterService extends BaseService {
 
     /**
-     * @var SocialAccountRepository
+     * @var BaseSocialRegisterService
      */
-    protected $socialAccountRepository;
-    /**
-     * @var UserService
-     */
-    protected $userService;
+    protected $baseSocialRegisterService;
 
     /**
      * SocialRegisterService constructor.
-     * @param SocialAccountRepository $socialAccountRepository
-     * @param UserService $userService
+     * @param BaseSocialRegisterService $baseSocialRegisterService
      */
-    public function __construct(SocialAccountRepository $socialAccountRepository, UserService $userService) {
-        $this->socialAccountRepository = $socialAccountRepository;
-        $this->userService = $userService;
+    public function __construct(BaseSocialRegisterService $baseSocialRegisterService) {
+        $this->baseSocialRegisterService = $baseSocialRegisterService;
     }
 
     /**
@@ -41,14 +34,24 @@ class SocialRegisterService extends BaseService {
         try {
             $providerUser = Socialite::driver($provider)->stateless()->user();
             DB::beginTransaction();
-            $userResponse = $this->getUser($providerUser);
-            if(!$userResponse['success']) throw new Exception($userResponse["message"]);
-            $hasAccount = $this->checkUserHasAccount($providerUser, $provider);
-            if(!$hasAccount) $this->createSocialAccountUser(
-                $providerUser,
-                $provider,
-                $userResponse['data']
+            $userResponse = $this->baseSocialRegisterService->getUser(
+                $providerUser->getEmail(),
+                empty(!$providerUser->getName()) ? $providerUser->getName() :$providerUser->getNickname(),
+                USER_ROLE
             );
+            if(!$userResponse['success']) throw new Exception($userResponse["message"]);
+            $hasAccount = $this->baseSocialRegisterService->checkUserHasAccount(
+                $providerUser->getId(),
+                $provider
+            );
+            if(!$hasAccount) {
+                $this->baseSocialRegisterService->createSocialAccountUser(
+                    $providerUser->getId(),
+                    $provider,
+                    $providerUser->token,
+                    $userResponse['data']->id
+                );
+            }
             DB::commit();
 
             return $this->loginAttempt($userResponse["data"]);
@@ -60,32 +63,6 @@ class SocialRegisterService extends BaseService {
     }
 
     /**
-     * @param object $providerUser
-     * @param string $provider
-     * @return bool
-     */
-    public function checkUserHasAccount (object $providerUser, string $provider) : bool {
-        $userHasAccount = $this->socialAccountRepository->getUserAccount($providerUser->getId(), $provider);
-
-         return isset($userHasAccount);
-    }
-
-    /**
-     * @param object $providerUser
-     * @param string $provider
-     * @param $user
-     * @return void
-     */
-    private function createSocialAccountUser (object $providerUser, string $provider, $user) :void {
-        $this->socialAccountRepository->create($this->_prepareSocialAccount(
-            $providerUser->getId(),
-            $provider,
-            $providerUser->token,
-            $user->id
-        ));
-    }
-
-    /**
      * @param $user
      * @return array
      */
@@ -93,32 +70,5 @@ class SocialRegisterService extends BaseService {
         Auth::login($user);
 
         return $this->response()->success('you are successfully signIn');
-    }
-
-    /**
-     * @param object $providerUser
-     * @return array
-     */
-    private function getUser (object $providerUser) :array {
-        $userEmailResponse = $this->userService->userEmailExists($providerUser->getEmail());
-        return $userEmailResponse['success'] ? $userEmailResponse :
-            $this->userService->create($this->userService->prepareSocialUserData($providerUser));
-    }
-
-    /**
-     * @param string $providerUserId
-     * @param string $provider
-     * @param string $token
-     * @param int $userId
-     * @return array
-     */
-    private function _prepareSocialAccount(string $providerUserId, string $provider,
-                                           string $token, int $userId) : array {
-        return [
-            'provider_user_id' => $providerUserId,
-            'provider' => $provider,
-            'token' => $token,
-            'user_id' => $userId
-        ];
     }
 }

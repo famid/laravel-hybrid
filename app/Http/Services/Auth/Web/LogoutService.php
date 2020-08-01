@@ -10,12 +10,15 @@ use Exception;
 
 class LogoutService extends BaseService {
 
+    /**
+     * @return array
+     */
     public function logout() {
         try {
             Auth::logout();
             session()->flush();
 
-            return $this->response()->success();
+            return $this->response()->success('successfully sign out');
         } catch (Exception $e) {
 
             return $this->response()->error();

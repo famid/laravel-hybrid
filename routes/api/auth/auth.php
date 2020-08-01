@@ -17,6 +17,9 @@ Route::group(['namespace' => 'Api\Auth'] , function () {
         ->name('api.auth.forget_password_email_send_process');
     Route::post('reset-password-process', "ResetPasswordController@resetPasswordProcess")
         ->name('api.auth.reset_password_process');
+    /*-------------------------------------Social sign api -----------------------------------------------*/
+    Route::post('social-sign-up', "SocialRegisterController@socialSignUp")->name('api.auth.social_sign_up');
+    /*-----------------------------------------------------------------------------------------------------*/
 });
 
 Route::group(['middleware' => ['auth:api']], function () {
