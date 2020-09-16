@@ -29,7 +29,8 @@ class BaseLoginService extends BaseService {
      */
     protected function signInProcess($request) : array {
         $credentials = $this->getCredentials($request->only('email','password'));
-        if(!Auth::attempt($credentials)) return $this->response()->error();
+        if(!Auth::attempt($credentials))
+            return $this->response()->error('User not found,please try again or login as social user');
 
         return !$this->userService->checkUserEmailIsVerified(Auth::user()) ?
             $this->response()->error("Your account is not verified. Please verify your account."):
