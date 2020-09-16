@@ -29,6 +29,5 @@ class RegisterService extends BaseService {
     public function signUp(object $request) : array {
         return $this->userService->create($this->userService->prepareUserData($request));
     }
-
 }
 
