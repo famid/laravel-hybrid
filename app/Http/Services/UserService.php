@@ -137,7 +137,7 @@ class UserService extends BaseService {
 
             return !$updateStatusResponse ?
                 $this->response()->error():
-                $this->response()->success('Your Email is Verified');
+                $this->response()->success('Your email has been successfully verified');
         } catch (Exception $e) {
 
             return $this->response()->error();
