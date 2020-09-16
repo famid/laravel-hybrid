@@ -5,7 +5,6 @@ namespace App\Http\Services\Auth\Web;
 
 
 use App\Http\Services\Boilerplate\BaseService;
-use App\Jobs\SendVerificationEmailJob;
 use App\Http\Services\UserService;
 use Exception;
 
@@ -25,34 +24,14 @@ class VerificationService extends BaseService {
     }
 
     /**
-     * @param object $request
-     * @return array
-     */
-    public function resendEmailVerificationCode(object $request) :array {
-        try {
-            $userResponse = $this->userService->validateUserEmail($request->email);
-            if(!$userResponse['success']) return $userResponse;
-            dispatch(new SendVerificationEmailJob(
-                    $userResponse['data']->email_verification_code,
-                    $userResponse['data'])
-            )->onQueue('email-send');
-
-            return $this->response()->success('Email verification code is resend');
-        } catch (Exception $e) {
-
-            return $this->response()->error();
-        }
-    }
-
-    /**
-     * here user verify their email by link
+     * user email is verified by link
      *
-     * @param $id
+     * @param string $encryptUserId
      * @return array
      */
-    public function verifyEmailProcess($id) : array {
+    public function verifyEmailProcess(string $encryptUserId) : array {
         try {
-            $userResponse = $this->userService->getUserById(decrypt($id));
+            $userResponse = $this->userService->getUserById(decrypt($encryptUserId));
             $emailVerifiedResponse = $this->userService->checkUserEmailIsVerified($userResponse['data']);
 
             return !$emailVerifiedResponse ?
