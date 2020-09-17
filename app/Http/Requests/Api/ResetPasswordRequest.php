@@ -39,14 +39,14 @@ class ResetPasswordRequest extends BaseValidation
     public function messages()
     {
         return [
+            'email.required' => __('Email field can not be empty'),
+            'email.string' => __('Email field can not be empty'),
+            'email.max:255' => __('Email field can not be empty'),
             'reset_password_code.required' => __('Reset password code can not be empty'),
             'new_password.required' => __('New password can not be empty'),
             'new_password.min' => __('New password must be al least 8 characters'),
             'confirm_password.required' => __('Confirm password can not be empty'),
             'confirm_password.same' => __('New password and confirm password are not same'),
-            'email.required' => __('Email field can not be empty'),
-            'email.string' => __('Email field can not be empty'),
-            'email.max:255' => __('Email field can not be empty')
         ];
     }
 }

@@ -36,11 +36,11 @@ class SignInRequest extends BaseValidation {
     public function messages()
     {
         return [
+            'email.required' => __('Email field can not be empty'),
+            'email.email' => __('Invalid email address'),
             'password.required' => __('Password field can not be empty'),
             'password.min' => __('Password length must be at least 8 characters.'),
             'password.confirmed' => __('Password and confirm password is not matched'),
-            'email.required' => __('Email field can not be empty'),
-            'email.email' => __('Invalid email address'),
             'device_type.required' => __('Device type is required'),
             'device_type.in' => __('Device type is invalid'),
             'device_token.required' => __('Device token is required'),
