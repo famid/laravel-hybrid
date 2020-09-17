@@ -20,6 +20,11 @@ class UserService extends BaseService {
         $this->repository = $userRepository;
     }
 
+    /**
+     * @param object $request
+     * @param int|null $emailVerificationCode
+     * @return array
+     */
     public function prepareUserData(object $request, int $emailVerificationCode = null) : array {
         return [
             'email' => $request->email,
@@ -35,6 +40,10 @@ class UserService extends BaseService {
         ];
     }
 
+    /**
+     * @param object $providerUser
+     * @return array
+     */
     public function prepareSocialUserData(object $providerUser) :array {
         return [
             'email' => $providerUser->getEmail(),
@@ -95,7 +104,7 @@ class UserService extends BaseService {
      * @param string $newPassword
      * @return bool
      */
-    public function updatePassword(int $userId, string $newPassword) {
+    public function updatePassword(int $userId, string $newPassword) :bool {
         try {
             $updatePasswordResponse = $this->repository->updateWhere([
                 'id' => $userId
@@ -116,8 +125,7 @@ class UserService extends BaseService {
      * @param $status
      * @return array
      */
-    public function updateEmailVerificationCodeAndStatus(object $user,$status,$emailVerificationCode = null)
-    :array {
+    public function updateEmailVerificationCodeAndStatus(object $user,$status,$emailVerificationCode = null) : array {
         try {
             $updateStatusResponse = $this->repository->updateWhere([
                 'id' => $user->id,
@@ -129,7 +137,7 @@ class UserService extends BaseService {
 
             return !$updateStatusResponse ?
                 $this->response()->error():
-                $this->response()->success('Your Email is Verified');
+                $this->response()->success('Your email has been successfully verified');
         } catch (Exception $e) {
 
             return $this->response()->error();
@@ -140,7 +148,7 @@ class UserService extends BaseService {
      * @param int $id
      * @return array
      */
-    public function getUserById (int $id) {
+    public function getUserById (int $id) :array {
         $user = $this->repository->find($id);
 
         return !isset($user) ? $this->response()->error() :

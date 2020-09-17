@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Web;
 
-use App\Rules\EmailOrUsernameValidation;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\EmailOrUsernameValidation;
 
 class SignInRequest extends FormRequest
 {
@@ -35,12 +35,10 @@ class SignInRequest extends FormRequest
     public function messages()
     {
         return [
-            'password.required' => __('Password field can not be empty'),
-            'password.min' => __('Password length must be at least 8 characters.'),
-            'password.confirmed' => __('Password and confirm password is not matched'),
             'email.required' => __('Email field can not be empty'),
             'email.string' => __('Email field can not be empty'),
-            'email.max:255' => __('Email field can not be empty')
+            'email.max:255' => __('Email field can not be empty'),
+            'password.required' => __('Password field can not be empty'),
         ];
     }
 }
