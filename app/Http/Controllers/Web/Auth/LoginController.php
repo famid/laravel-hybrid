@@ -46,14 +46,14 @@ class LoginController extends Controller {
      * @param SignInRequest $request
      * @return RedirectResponseAlias
      */
-    public function signInProcess(SignInRequest $request) {
+    public function signInProcess(SignInRequest $request): RedirectResponseAlias {
         return $this->webResponse($this->loginService->signIn($request), 'web.admin.dashboard');
     }
 
     /**
      * @return RedirectResponseAlias
      */
-    public function signOut() {
+    public function signOut(): RedirectResponseAlias {
         return $this->webResponse($this->logoutService->logout(), 'web.auth.sign_in');
     }
 }

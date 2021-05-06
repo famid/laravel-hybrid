@@ -38,7 +38,7 @@ class RegisterController extends Controller {
      * @param SignUpRequest $request
      * @return RedirectResponse
      */
-    public function signUpProcess(SignUpRequest $request)  {
+    public function signUpProcess(SignUpRequest $request): RedirectResponse {
         return $this->webResponse($this->registerService->signUp($request), 'web.auth.sign_in');
     }
 }

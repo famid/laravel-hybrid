@@ -13,8 +13,7 @@ class SocialUserResolverRequest extends BaseValidation {
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize(): bool {
         return true;
     }
 
@@ -23,7 +22,7 @@ class SocialUserResolverRequest extends BaseValidation {
      *
      * @return array
      */
-    public function rules() {
+    public function rules(): array {
         return [
             'grant_type' => 'required',
             'client_id' => 'required',
@@ -35,8 +34,7 @@ class SocialUserResolverRequest extends BaseValidation {
         ];
     }
 
-    public function messages()
-    {
+    public function messages(): array {
         return [
             'grant_typ.required' => __('grant_typ can not be empty'),
             'client_id.required' => __('client_id field can not be empty'),

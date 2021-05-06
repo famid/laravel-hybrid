@@ -25,7 +25,7 @@ class UserService extends BaseService {
      * @param int|null $emailVerificationCode
      * @return array
      */
-    public function prepareUserData(object $request, int $emailVerificationCode = null) : array {
+    public function prepareUserData(object $request, int $emailVerificationCode = null): array {
         return [
             'email' => $request->email,
             'phone_code' => $request->phone_code,
@@ -44,7 +44,7 @@ class UserService extends BaseService {
      * @param object $providerUser
      * @return array
      */
-    public function prepareSocialUserData(object $providerUser) :array {
+    public function prepareSocialUserData(object $providerUser): array {
         return [
             'email' => $providerUser->getEmail(),
             'username' => empty(!$providerUser->getName()) ? $providerUser->getName()
@@ -58,7 +58,7 @@ class UserService extends BaseService {
      * @param array $userData
      * @return array
      */
-    public function create(array $userData) : array {
+    public function create(array $userData): array {
         try {
             $user = $this->repository->create($userData);
             if(!$user) return $this->response()->error();
@@ -77,7 +77,7 @@ class UserService extends BaseService {
      * @param string $email
      * @return array
      */
-    public function userEmailExists(string $email) :array {
+    public function userEmailExists(string $email): array {
         try {
             $user = $this->repository->getUser(['email' => $email]);
 
@@ -94,7 +94,7 @@ class UserService extends BaseService {
      * @param object $user
      * @return bool
      */
-    public function checkUserEmailIsVerified(object $user) :bool {
+    public function checkUserEmailIsVerified(object $user): bool {
         return $user->role == ADMIN_ROLE ||
             (is_null($user->email_verification_code) && $user->email_verified == ACTIVE_STATUS);
     }
@@ -104,7 +104,7 @@ class UserService extends BaseService {
      * @param string $newPassword
      * @return bool
      */
-    public function updatePassword(int $userId, string $newPassword) :bool {
+    public function updatePassword(int $userId, string $newPassword): bool {
         try {
             $updatePasswordResponse = $this->repository->updateWhere([
                 'id' => $userId
@@ -125,7 +125,7 @@ class UserService extends BaseService {
      * @param $status
      * @return array
      */
-    public function updateEmailVerificationCodeAndStatus(object $user,$status,$emailVerificationCode = null) : array {
+    public function updateEmailVerificationCodeAndStatus(object $user,$status,$emailVerificationCode = null): array {
         try {
             $updateStatusResponse = $this->repository->updateWhere([
                 'id' => $user->id,
@@ -148,7 +148,7 @@ class UserService extends BaseService {
      * @param int $id
      * @return array
      */
-    public function getUserById (int $id) :array {
+    public function getUserById (int $id): array {
         $user = $this->repository->find($id);
 
         return !isset($user) ? $this->response()->error() :
@@ -159,7 +159,7 @@ class UserService extends BaseService {
      * @param string $email
      * @return array
      */
-    public function validateUserEmail(string $email) {
+    public function validateUserEmail(string $email): array {
         $userResponse = $this->userEmailExists($email);
         if (!$userResponse['success']) return $userResponse;
         $emailVerifiedResponse = $this->checkUserEmailIsVerified($userResponse['data']);

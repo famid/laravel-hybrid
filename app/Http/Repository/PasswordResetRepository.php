@@ -32,5 +32,4 @@ class PasswordResetRepository extends BaseRepository {
             ->orderBy('id', 'desc')
             ->first();
     }
-
 }

@@ -11,8 +11,7 @@ class VerifyEmailRequest extends BaseValidation {
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize(): bool {
         return true;
     }
 
@@ -21,8 +20,7 @@ class VerifyEmailRequest extends BaseValidation {
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules(): array {
 
         return [
             'email' => 'required|email|exists:users,email',
@@ -34,8 +32,7 @@ class VerifyEmailRequest extends BaseValidation {
     /**
      * @return array
      */
-    public function messages()
-    {
+    public function messages(): array {
         return [
             'email.required' => __('Email field can not be empty'),
             'email.email' => __('Invalid email address'),

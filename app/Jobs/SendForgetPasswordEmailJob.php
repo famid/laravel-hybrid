@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -53,7 +54,7 @@ class SendForgetPasswordEmailJob implements ShouldQueue
                     $defaultEmail, $defaultName
                 );
             });
-        } catch (\Exception $exception){
+        } catch (Exception $exception){
             Log::info($exception->getMessage());
         }
     }

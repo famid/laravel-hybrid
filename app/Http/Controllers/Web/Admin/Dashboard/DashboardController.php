@@ -15,8 +15,6 @@ class DashboardController extends Controller {
      * @return Application|Factory|View
      */
     public function dashboard() {
-
         return view('admin.dashboard.dashboard');
     }
-
 }

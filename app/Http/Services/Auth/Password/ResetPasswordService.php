@@ -43,7 +43,7 @@ class ResetPasswordService extends BaseService {
      * @param object $request
      * @return array
      */
-    public function resetPasswordProcess (object $request) {
+    public function resetPasswordProcess (object $request): array {
         try {
             $userResponse = $this->userService->userEmailExists($request->email);
             if (!$userResponse['success']) return $userResponse;
@@ -63,7 +63,7 @@ class ResetPasswordService extends BaseService {
      * @param int $resetPasswordCodeFromUser
      * @return array
      */
-    private function getPasswordResetCode (int $userId, int $resetPasswordCodeFromUser) :array {
+    private function getPasswordResetCode (int $userId, int $resetPasswordCodeFromUser): array {
         $validatePasswordResetCodeFromUser = $this->passwordResetCodeIsCorrect(
             $userId,
             $resetPasswordCodeFromUser
@@ -85,7 +85,7 @@ class ResetPasswordService extends BaseService {
      * @param int $resetPasswordCodeFromUser
      * @return array
      */
-    private function passwordResetCodeIsCorrect(int $userId,int $resetPasswordCodeFromUser) :array {
+    private function passwordResetCodeIsCorrect(int $userId,int $resetPasswordCodeFromUser): array {
         $passwordResetCode = $this->passwordResetRepository->firstWhere(
             [
                 'user_id' => $userId,
@@ -107,7 +107,7 @@ class ResetPasswordService extends BaseService {
      * @param $createAt
      * @return array
      */
-    private function checkPasswordResetCodeIsExpired ($createAt) :array {
+    private function checkPasswordResetCodeIsExpired ($createAt): array {
         $totalDuration = Carbon::now()->diffInMinutes($createAt);
 
         return $totalDuration > EXPIRE_TIME_OF_FORGET_PASSWORD_CODE ?
@@ -124,7 +124,7 @@ class ResetPasswordService extends BaseService {
      * @param int $passwordResetCodeId
      * @return array
      */
-    private function resetPassword(int $userId, string $newPassword, int $passwordResetCodeId) : array {
+    private function resetPassword(int $userId, string $newPassword, int $passwordResetCodeId): array {
         try {
             DB::beginTransaction();
             if (!$this->userService->updatePassword($userId,$newPassword)) throw new Exception(
@@ -148,7 +148,7 @@ class ResetPasswordService extends BaseService {
      * @param object $request
      * @return array
      */
-    public function changePassword(object $request) {
+    public function changePassword(object $request): array {
         try {
             $user = (object) Auth::user();
             if (!Hash::check($request->old_password, $user->password)) return $this->response()

@@ -30,7 +30,7 @@ class BaseSocialRegisterService extends BaseService {
      * @param string $provider
      * @return bool
      */
-    public function checkUserHasAccount (string $userProviderId, string $provider) : bool {
+    public function checkUserHasAccount (string $userProviderId, string $provider): bool {
         return !is_null($this->socialAccountRepository->getUserAccount($userProviderId, $provider));
     }
 
@@ -41,7 +41,7 @@ class BaseSocialRegisterService extends BaseService {
      * @param int $userId
      */
     public function createSocialAccountUser (string $providerUserId, string $provider,
-                                             string $token, int $userId) :void {
+                                             string $token, int $userId): void {
         $this->socialAccountRepository->create($this->_prepareSocialAccount(
             $providerUserId,
             $provider,
@@ -56,7 +56,7 @@ class BaseSocialRegisterService extends BaseService {
      * @param $role
      * @return array
      */
-    public function getUser(string $email, string $userName, $role) :array {
+    public function getUser(string $email, string $userName, $role): array {
         $userEmailResponse = $this->userService->userEmailExists($email);
 
         return $userEmailResponse['success'] ?
@@ -70,7 +70,7 @@ class BaseSocialRegisterService extends BaseService {
      * @param int $role
      * @return array
      */
-    private function prepareSocialUserData(string $email, string $userName, int $role) :array {
+    private function prepareSocialUserData(string $email, string $userName, int $role): array {
         return [
             'email' => $email,
             'username' => $userName,
@@ -86,7 +86,7 @@ class BaseSocialRegisterService extends BaseService {
      * @return array
      */
     private function _prepareSocialAccount(string $providerUserId, string $provider,
-                                           string $token, int $userId) : array {
+                                           string $token, int $userId): array {
         return [
             'provider_user_id' => $providerUserId,
             'provider' => $provider,

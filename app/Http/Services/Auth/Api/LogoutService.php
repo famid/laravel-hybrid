@@ -31,7 +31,7 @@ class LogoutService extends BaseService {
      * @param object $request
      * @return array
      */
-    public function logout(object $request) :array {
+    public function logout(object $request): array {
         try {
             $token = $request->user()->token();
             if (empty($token)) return $this->response()->error();

@@ -11,8 +11,7 @@ class VerifyEmailRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize(): bool {
         return true;
     }
 
@@ -21,8 +20,7 @@ class VerifyEmailRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules(): array {
         return [
             'email' => 'required|email|exists:users,email',
             'email_verification_code' => 'required',
@@ -33,8 +31,7 @@ class VerifyEmailRequest extends FormRequest
     /**
      * @return array
      */
-    public function messages()
-    {
+    public function messages(): array {
         return [
             'email_verification_code.required' => __('verification_code can not be empty'),
             'email.required' => __('Email field can not be empty'),

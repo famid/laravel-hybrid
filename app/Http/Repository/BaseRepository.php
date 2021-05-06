@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Repository;
 
 abstract class BaseRepository {
@@ -103,7 +104,7 @@ abstract class BaseRepository {
      * @param bool $isForce
      * @return mixed
      */
-    public function deleteWhere($where=[], $isForce = false) {
+    public function deleteWhere(array $where=[], bool $isForce = false) {
         $query = $this->model::query();
         foreach($where as $key => $value) {
             if(is_array($value)){

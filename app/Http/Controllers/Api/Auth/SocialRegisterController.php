@@ -28,7 +28,7 @@ class SocialRegisterController extends Controller {
      * @param SocialUserResolverRequest $request
      * @return JsonResponse
      */
-    public function socialSignUp(SocialUserResolverRequest $request) {
+    public function socialSignUp(SocialUserResolverRequest $request): JsonResponse {
         return response()->json($this->socialRegister->socialRegistration($request));
     }
 }

@@ -29,7 +29,7 @@ class VerificationController extends Controller {
      * @param VerifyEmailRequest $request
      * @return JsonResponse
      */
-    public function verifyEmailProcess(VerifyEmailRequest $request) {
+    public function verifyEmailProcess(VerifyEmailRequest $request): JsonResponse {
         return response()->json($this->verificationService->verifyEmailProcess($request));
     }
 
@@ -37,7 +37,7 @@ class VerificationController extends Controller {
      * @param ForgetPasswordRequest $request
      * @return JsonResponse
      */
-    public function resendEmailVerificationCode(ForgetPasswordRequest $request) {
+    public function resendEmailVerificationCode(ForgetPasswordRequest $request): JsonResponse {
         return response()->json($this->verificationService->resendEmailVerificationCode($request));
     }
 }

@@ -36,7 +36,7 @@ class ForgotPasswordService extends BaseService {
      * @param object $request
      * @return array
      */
-    public function sendForgetPasswordEmail(object $request) : array {
+    public function sendForgetPasswordEmail(object $request): array {
         try {
             $userResponse = $this->userService->userEmailExists($request->email);
             if (!$userResponse['success']) return $userResponse;
@@ -57,7 +57,7 @@ class ForgotPasswordService extends BaseService {
      * @param int $randNo
      * @return array
      */
-    private function storePasswordResetCode(object $user, int $randNo) : array {
+    private function storePasswordResetCode(object $user, int $randNo): array {
         $storePasswordResetResponse = $this->passwordResetRepository->create(
             [
                 'user_id' => $user->id,

@@ -29,7 +29,7 @@ class ResetPasswordController extends Controller {
      * @param ResetPasswordRequest $request
      * @return JsonResponse
      */
-    public function resetPasswordProcess(ResetPasswordRequest $request) {
+    public function resetPasswordProcess(ResetPasswordRequest $request): JsonResponse {
         return response()->json($this->resetPasswordService->resetPasswordProcess($request));
     }
 
@@ -37,7 +37,7 @@ class ResetPasswordController extends Controller {
      * @param PasswordChangeRequest $request
      * @return JsonResponse
      */
-    public function passwordChangeProcess(PasswordChangeRequest $request) {
+    public function passwordChangeProcess(PasswordChangeRequest $request): JsonResponse {
        return response()->json($this->resetPasswordService->changePassword($request));
     }
 }

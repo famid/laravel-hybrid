@@ -31,7 +31,7 @@ class LoginService extends BaseLoginService {
      * @param object $request
      * @return array
      */
-    public function signIn(object $request) : array {
+    public function signIn(object $request): array {
         try {
             $signInResponse = $this->signInProcess($request);
 

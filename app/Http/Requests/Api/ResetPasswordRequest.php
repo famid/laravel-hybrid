@@ -13,8 +13,7 @@ class ResetPasswordRequest extends BaseValidation
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize(): bool {
         return true;
     }
 
@@ -23,8 +22,7 @@ class ResetPasswordRequest extends BaseValidation
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules(): array {
         return [
             'email' =>  ['required', 'string', 'max:255', new EmailOrUsernameValidation()],
             'reset_password_code' => 'required',
@@ -36,8 +34,7 @@ class ResetPasswordRequest extends BaseValidation
     /**
      * @return array
      */
-    public function messages()
-    {
+    public function messages(): array {
         return [
             'email.required' => __('Email field can not be empty'),
             'email.string' => __('Email field can not be empty'),

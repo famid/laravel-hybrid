@@ -29,7 +29,7 @@ class VerificationService extends BaseService {
      * @param string $encryptUserId
      * @return array
      */
-    public function verifyEmailProcess(string $encryptUserId) : array {
+    public function verifyEmailProcess(string $encryptUserId): array {
         try {
             $userResponse = $this->userService->getUserById(decrypt($encryptUserId));
             $emailVerifiedResponse = $this->userService->checkUserEmailIsVerified($userResponse['data']);

@@ -13,7 +13,7 @@ class LogoutService extends BaseService {
     /**
      * @return array
      */
-    public function logout() {
+    public function logout(): array {
         try {
             Auth::logout();
             session()->flush();

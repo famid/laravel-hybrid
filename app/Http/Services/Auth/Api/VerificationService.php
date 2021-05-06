@@ -31,7 +31,7 @@ class VerificationService extends BaseService {
      * @return array
      */
 
-    public function verifyEmailProcess (object $request) :array {
+    public function verifyEmailProcess (object $request): array {
         try {
             $userResponse = $this->userService->validateUserEmail($request->email);
             if(!$userResponse['success']) return $userResponse;
@@ -50,7 +50,7 @@ class VerificationService extends BaseService {
      * @param object $request
      * @return array
      */
-    public function resendEmailVerificationCode(object $request) :array {
+    public function resendEmailVerificationCode(object $request): array {
         try {
             $userResponse = $this->userService->validateUserEmail($request->email);
             if(!$userResponse['success']) return $userResponse;

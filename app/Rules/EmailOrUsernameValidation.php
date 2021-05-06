@@ -29,7 +29,7 @@ class EmailOrUsernameValidation implements Rule {
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value) {
+    public function passes($attribute, $value): bool {
         return (filter_var($value, FILTER_VALIDATE_EMAIL)) ?
             $this->emailValidation($value) :
             $this->usernameValidation($value);
@@ -39,7 +39,7 @@ class EmailOrUsernameValidation implements Rule {
      * @param string $value
      * @return bool
      */
-    private function emailValidation(string $value) {
+    private function emailValidation(string $value): bool {
         $userEmailExist = User::where('email', $value)->first();
         $this->message = is_null($userEmailExist) ? __("The email does not exists!") : '';
 
@@ -50,7 +50,7 @@ class EmailOrUsernameValidation implements Rule {
      * @param string $value
      * @return bool
      */
-    private function usernameValidation(string $value) {
+    private function usernameValidation(string $value): bool {
         // is not a valid email, so it should be username
         $userNameExist = User::where('username', $value)->first();
         $this->message = is_null($userNameExist) ? __("The email or username does not exists!") : '';
@@ -63,7 +63,7 @@ class EmailOrUsernameValidation implements Rule {
      *
      * @return string
      */
-    public function message() {
+    public function message(): string {
         return $this->message;
     }
 }

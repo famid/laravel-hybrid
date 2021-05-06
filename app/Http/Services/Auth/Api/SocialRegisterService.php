@@ -47,7 +47,7 @@ class SocialRegisterService extends BaseService {
      * @param object $request
      * @return array
      */
-    public function socialRegistration(object $request) :array {
+    public function socialRegistration(object $request): array {
         try {
             $providerUser = Socialite::driver($request->provider)->userFromToken($request->social_token);
             DB::beginTransaction();
@@ -89,7 +89,7 @@ class SocialRegisterService extends BaseService {
      * @param $token
      * @return array
      */
-    private function getSocialResponse($user, $token) {
+    private function getSocialResponse($user, $token): array {
         return !$this->userService->checkUserEmailIsVerified($user) ?
             $this->response()->error('please verify your email'):
             $this->socialAuthenticateApiResponse ($user, $token,__('successfully signIn'));

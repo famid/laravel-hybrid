@@ -29,7 +29,7 @@ class SocialRegisterController extends Controller {
      * @param $provider
      * @return RedirectResponse
      */
-    public function redirectToProvider($provider) {
+    public function redirectToProvider($provider): RedirectResponse {
         return Socialite::driver($provider)->redirect();
     }
 
@@ -37,7 +37,7 @@ class SocialRegisterController extends Controller {
      * @param $provider
      * @return RedirectResponseAlias
      */
-    public function handleProviderCallback($provider) {
+    public function handleProviderCallback($provider): RedirectResponseAlias {
         return $this->webResponse($this->socialRegisterService->socialRegistration($provider), 'web.admin.dashboard');
     }
 }

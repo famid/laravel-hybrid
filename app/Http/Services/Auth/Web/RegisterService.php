@@ -26,7 +26,7 @@ class RegisterService extends BaseService {
      * @param object $request
      * @return array
      */
-    public function signUp(object $request) : array {
+    public function signUp(object $request): array {
         return $this->userService->create($this->userService->prepareUserData($request));
     }
 }

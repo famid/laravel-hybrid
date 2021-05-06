@@ -28,7 +28,7 @@ class RegisterController extends Controller {
      * @param SignUpRequest $request
      * @return JsonResponse
      */
-    public function signUpProcess(SignUpRequest $request) {
+    public function signUpProcess(SignUpRequest $request): JsonResponse {
         return response()->json($this->registerService->signUp($request));
     }
 }

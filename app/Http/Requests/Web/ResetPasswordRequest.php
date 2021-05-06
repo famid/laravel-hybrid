@@ -12,8 +12,7 @@ class ResetPasswordRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize(): bool {
         return true;
     }
 
@@ -22,8 +21,7 @@ class ResetPasswordRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules(): array {
         return [
             'email' =>  ['required', 'string', 'max:255', new EmailOrUsernameValidation()],
             'reset_password_code' => 'required',
@@ -35,8 +33,7 @@ class ResetPasswordRequest extends FormRequest
     /**
      * @return array
      */
-    public function messages()
-    {
+    public function messages(): array {
         return [
             'reset_password_code.required' => __('Reset password code can not be empty'),
             'new_password.required' => __('New password can not be empty'),

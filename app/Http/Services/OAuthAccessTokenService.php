@@ -21,7 +21,7 @@ class OAuthAccessTokenService extends BaseService {
      * @param string $tokenId
      * @return bool
      */
-    public function delete(string $tokenId) :bool {
+    public function delete(string $tokenId): bool {
         return $this->repository->deleteWhere(['id' => $tokenId]) > 0;
     }
 }

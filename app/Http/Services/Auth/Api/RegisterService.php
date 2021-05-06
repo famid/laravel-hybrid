@@ -35,7 +35,7 @@ class RegisterService extends BaseService {
      * @param object $request
      * @return array
      */
-    public function signUp(object $request) : array {
+    public function signUp(object $request): array {
         try {
             DB::beginTransaction();
             $createUserResponse = $this->userService->create(

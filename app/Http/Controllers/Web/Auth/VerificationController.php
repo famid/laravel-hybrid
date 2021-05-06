@@ -27,7 +27,7 @@ class VerificationController extends Controller {
      * @param $encryptUserId
      * @return RedirectResponse
      */
-    public function verifyEmailProcess($encryptUserId) {
+    public function verifyEmailProcess($encryptUserId): RedirectResponse {
         return $this->webResponse($this->verificationService->verifyEmailProcess($encryptUserId),'web.auth.sign_in');
     }
 }

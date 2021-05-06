@@ -22,7 +22,7 @@ class MobileDeviceService extends BaseService {
      * @param string $message
      * @return array
      */
-    public function saveClientDeviceAndBuildResponse(object $user, object $request, string $message) :array {
+    public function saveClientDeviceAndBuildResponse(object $user, object $request, string $message): array {
         $createTokenResponse = $user->createToken($request->email)->accessToken;
         if (empty($createTokenResponse)) return $this->response()->error();
         $storeMobileDeviceResponse = $this->updateOrCreateMobileDeviceInfo(
@@ -41,7 +41,7 @@ class MobileDeviceService extends BaseService {
      * @param string $deviceToken
      * @return bool
      */
-    public function updateOrCreateMobileDeviceInfo(int $userId, string $deviceType, string $deviceToken) :bool {
+    public function updateOrCreateMobileDeviceInfo(int $userId, string $deviceType, string $deviceToken): bool {
         $storeMobileDeviceResponse = $this->repository->updateOrCreate(
             ['user_id' => $userId], ['device_type' => $deviceType, 'device_token' => $deviceToken]
         );
@@ -55,7 +55,7 @@ class MobileDeviceService extends BaseService {
      * @param $deviceToken
      * @return bool
      */
-    public function deleteMobileDeviceInfo(int $userId,$deviceType,$deviceToken) :bool {
+    public function deleteMobileDeviceInfo(int $userId,$deviceType,$deviceToken): bool {
         $deleteResponse = $this->repository->deleteWhere([
             'user_id' => $userId,
             'device_type' => $deviceType,
@@ -70,7 +70,7 @@ class MobileDeviceService extends BaseService {
      * @param object $request
      * @return array
      */
-    public function saveClientDeviceAndGetToken(object $user, object $request) : array {
+    public function saveClientDeviceAndGetToken(object $user, object $request): array {
         $createTokenResponse = $user->createToken($request->email)->accessToken;
         if (empty($createTokenResponse)) return $this->response()->error();
         $storeMobileDeviceResponse = $this->updateOrCreateMobileDeviceInfo(

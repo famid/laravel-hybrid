@@ -38,7 +38,7 @@ class ForgotPasswordController extends Controller {
      * @param ForgetPasswordRequest $request
      * @return RedirectResponse
      */
-    public function forgetPasswordEmailSendProcess(ForgetPasswordRequest $request) {
+    public function forgetPasswordEmailSendProcess(ForgetPasswordRequest $request): RedirectResponse {
         $response = $this->forgotPasswordService->sendForgetPasswordEmail($request);
         return $this->webResponse(
             $response,

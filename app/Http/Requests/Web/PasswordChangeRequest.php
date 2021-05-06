@@ -11,8 +11,7 @@ class PasswordChangeRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize(): bool {
         return true;
     }
 
@@ -21,8 +20,7 @@ class PasswordChangeRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules(): array {
         return [
             'old_password' => 'required',
             'new_password' => 'required|min:8',
@@ -33,7 +31,7 @@ class PasswordChangeRequest extends FormRequest
     /**
      * @return array
      */
-    public function messages() {
+    public function messages(): array {
         return [
             'old_password.required' => __('Old password can not be empty'),
             'new_password.required' => __('New password can not be empty'),

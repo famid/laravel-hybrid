@@ -37,7 +37,7 @@ class LoginController extends Controller {
      * @param SignInRequest $request
      * @return JsonResponse
      */
-    public function signInProcess(SignInRequest $request) {
+    public function signInProcess(SignInRequest $request): JsonResponse {
         return response()->json($this->loginService->signIn($request));
     }
 
@@ -45,7 +45,7 @@ class LoginController extends Controller {
      * @param LogoutRequest $request
      * @return JsonResponse
      */
-    public function signOut(LogoutRequest $request) {
+    public function signOut(LogoutRequest $request): JsonResponse {
         return response()->json($this->logoutService->logout($request));
     }
 }

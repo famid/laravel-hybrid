@@ -11,8 +11,7 @@ class SignUpRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize(): bool {
         return true;
     }
 
@@ -21,8 +20,7 @@ class SignUpRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules(): array {
         return [
             'first_name' => 'required',
             'last_name' => 'required',
@@ -37,8 +35,7 @@ class SignUpRequest extends FormRequest
     /**
      * @return array
      */
-    public function messages()
-    {
+    public function messages(): array {
         return [
             'first_name.required' => __('first name field can not be empty'),
             'last_name.required' => __('Last name field can not be empty'),

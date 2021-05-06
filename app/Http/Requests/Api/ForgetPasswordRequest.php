@@ -12,8 +12,7 @@ class ForgetPasswordRequest extends BaseValidation
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize(): bool {
         return true;
     }
 
@@ -22,18 +21,18 @@ class ForgetPasswordRequest extends BaseValidation
      *
      * @return array
      */
-    public function rules()
-    {
+    public function rules(): array {
         return [
 
             'email' => 'required|email|exists:users,email',
         ];
     }
 
-    public function messages()
-    {
+    /**
+     * @return array
+     */
+    public function messages(): array {
         return [
-
             'email.required' => __('Email field can not be empty'),
         ];
     }

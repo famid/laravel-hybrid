@@ -23,7 +23,7 @@ class Controller extends BaseController {
      * @param string $message
      * @return array
      */
-    public function successResponse(string $message="") {
+    public function successResponse(string $message=""): array {
         return [
             "success" => $message
         ];
@@ -33,7 +33,7 @@ class Controller extends BaseController {
      * @param string $message
      * @return string[]
      */
-    public function errorResponse(string $message="") {
+    public function errorResponse(string $message=""): array {
         return ["error" => empty($message) ? __($this->errorMessage) : $message];
     }
 
@@ -62,7 +62,7 @@ class Controller extends BaseController {
      * @return RedirectResponse
      */
     public function webResponse(array $serviceResponse, string $successRoute = null, string $failedRoute = null
-        , array $successRouteParameter = [], array $failedRouteParameter = []){
+        , array $successRouteParameter = [], array $failedRouteParameter = []): RedirectResponse {
         $redirection = redirect();
 
         if (!$serviceResponse['success']) {

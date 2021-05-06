@@ -15,5 +15,4 @@ class OAuthAccessTokenRepository extends BaseRepository {
     public function __construct(OAuthAccessToken $model) {
         parent::__construct($model);
     }
-
 }

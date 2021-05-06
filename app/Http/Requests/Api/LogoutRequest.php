@@ -11,7 +11,7 @@ class LogoutRequest extends BaseValidation {
      *
      * @return bool
      */
-    public function authorize() {
+    public function authorize(): bool {
         return true;
     }
 
@@ -20,14 +20,17 @@ class LogoutRequest extends BaseValidation {
      *
      * @return array
      */
-    public function rules() {
+    public function rules(): array {
         return [
             'device_type' => 'required|in:' . implode(",", ['android', 'ios']),
             'device_token' => 'required'
         ];
     }
 
-    public function messages() {
+    /**
+     * @return array
+     */
+    public function messages(): array {
         return [
             'device_type.required' => __('Device type is required'),
             'device_type.in' => __('Device type is invalid'),

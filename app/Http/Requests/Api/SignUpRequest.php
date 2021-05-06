@@ -13,8 +13,7 @@ class SignUpRequest extends BaseValidation {
      *
      * @return bool
      */
-    public function authorize()
-    {
+    public function authorize(): bool {
         return true;
     }
 
@@ -23,7 +22,7 @@ class SignUpRequest extends BaseValidation {
      *
      * @return array
      */
-    public function rules() {
+    public function rules(): array {
 
         return [
             'first_name' => 'required',
@@ -42,8 +41,7 @@ class SignUpRequest extends BaseValidation {
     /**
      * @return array
      */
-    public function messages()
-    {
+    public function messages(): array {
         return [
             'first_name.required' => __('First Name field can not be empty'),
             'last_name.required' => __('Last Name field can not be empty'),

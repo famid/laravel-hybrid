@@ -46,7 +46,7 @@ class SudoSocialRegisterService extends BaseService {
      * @param object $request
      * @return array
      */
-    public function socialRegistration(object $request) :array {
+    public function socialRegistration(object $request): array {
         try {
             DB::beginTransaction();
             $userResponse =  $this->baseSocialRegisterService->getUser(
@@ -87,7 +87,7 @@ class SudoSocialRegisterService extends BaseService {
      * @param string $token
      * @return array
      */
-    private function getSocialResponse(object $user, string $token) {
+    private function getSocialResponse(object $user, string $token): array {
         return !$this->userService->checkUserEmailIsVerified($user) ?
             $this->response()->error('please verify your email'):
             $this->socialAuthenticateApiResponse ($user, $token,__('successfully signIn'));

@@ -5,7 +5,6 @@ namespace App\Http\Repository;
 
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 class UserRepository extends BaseRepository  {
 
@@ -22,8 +21,6 @@ class UserRepository extends BaseRepository  {
      * @return mixed
      */
     public function getUser($where) {
-
         return $this->model->where($where)->orderBy('id', 'ASC')->first();
     }
-
 }

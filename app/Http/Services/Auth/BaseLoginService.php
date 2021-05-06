@@ -27,7 +27,7 @@ class BaseLoginService extends BaseService {
      * @param $request
      * @return array
      */
-    protected function signInProcess($request) : array {
+    protected function signInProcess($request): array {
         $credentials = $this->getCredentials($request->only('email','password'));
         if(!Auth::attempt($credentials))
             return $this->response()->error('User not found,please try again or login as social user');
@@ -41,7 +41,7 @@ class BaseLoginService extends BaseService {
      * @param array $data
      * @return array
      */
-    private function getCredentials(array $data) : array {
+    private function getCredentials(array $data): array {
         return filter_var($data['email'], FILTER_VALIDATE_EMAIL) ? [
                 'email' => $data['email'],
                 'password' => $data['password']

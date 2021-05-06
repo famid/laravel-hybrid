@@ -30,7 +30,7 @@ class SocialRegisterService extends BaseService {
      * @param string $provider
      * @return array
      */
-    public function socialRegistration(string $provider) :array {
+    public function socialRegistration(string $provider): array {
         try {
             $providerUser = Socialite::driver($provider)->stateless()->user();
             DB::beginTransaction();
@@ -66,7 +66,7 @@ class SocialRegisterService extends BaseService {
      * @param $user
      * @return array
      */
-    private function loginAttempt($user) {
+    private function loginAttempt($user): array {
         Auth::login($user);
 
         return $this->response()->success('you are successfully signIn');
