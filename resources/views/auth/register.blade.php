@@ -3,12 +3,12 @@
 @endsection
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 @section('content')
-    <div class="auth-layout-wrap" style="background-image: url({{asset('images/images.jpeg') }});">
+    <div class="auth-layout-wrap" style="background-image: url({{asset('assets/default/images/images.jpeg') }});">
         <div class="row">
             <div class="col-md-12 text-center ">
                 <div class="p-4 auth-right">
                     <div class="auth-logo text-center mt-4">
-                        <img src="{{asset("assets/images/logo.png")}}" alt="logo">
+                        <img src="{{asset("assets/gull_template/images/logo.png")}}" alt="logo">
                     </div>
                     <div class="flex-grow-1"></div>
                     <div class="w-100 mb-4">

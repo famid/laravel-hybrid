@@ -1,13 +1,13 @@
 @extends('auth.layouts.auth')
 
 @section('content')
-    <div class="auth-layout-wrap" style="background-image: url({{asset('images/images.jpeg') }});">
+    <div class="auth-layout-wrap" style="background-image: url({{asset('assets/default/images/images.jpeg') }});">
         <div class="auth-content">
             <div class="row">
                     <div class="col-md-6">
                         <div class="p-4">
                             <div class="auth-logo text-center mb-4">
-                                <img src="{{asset('assets/images/logo.png')}}" alt="">
+                                <img src="{{asset("assets/gull_template/images/logo.png")}}" alt="logo">
                             </div>
                             <h1 class="mb-3 text-18">{{__('Reset Your Password')}}</h1>
                             <form method="POST" action="{{ route('web.auth.reset_password_process') }}">

@@ -1,12 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: debu
- * Date: 7/5/19
- * Time: 1:37 PM
- */
-
-
 
 const USER_PENDING_STATUS = 0;
 const USER_ACTIVE_STATUS = 1;
