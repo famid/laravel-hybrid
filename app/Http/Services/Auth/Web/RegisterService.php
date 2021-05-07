@@ -6,6 +6,7 @@ namespace App\Http\Services\Auth\Web;
 
 use App\Http\Services\Boilerplate\BaseService;
 use App\Http\Services\UserService;
+use App\Jobs\SendVerificationEmailJob;
 
 class RegisterService extends BaseService {
 
@@ -27,7 +28,15 @@ class RegisterService extends BaseService {
      * @return array
      */
     public function signUp(object $request): array {
-        return $this->userService->create($this->userService->prepareUserData($request));
+        $createUserResponse = $this->userService->create($this->userService->prepareUserData($request));
+        if (!$createUserResponse['success']) return $createUserResponse;
+
+        dispatch(new SendVerificationEmailJob(
+                $createUserResponse['data']->email_verification_code,
+                $createUserResponse['data'])
+        )->onQueue('email-send');
+
+        return $createUserResponse;
     }
 }
 

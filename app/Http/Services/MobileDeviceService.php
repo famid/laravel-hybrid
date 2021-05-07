@@ -32,7 +32,7 @@ class MobileDeviceService extends BaseService {
         );
 
         return !$storeMobileDeviceResponse ? $this->response()->error() :
-            $this->authenticateApiResponse($user, $createTokenResponse, $message);
+            $this->authenticateApiResponse($createTokenResponse, $user, $message);
     }
 
     /**

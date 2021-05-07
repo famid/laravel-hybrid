@@ -6,7 +6,6 @@ namespace App\Http\Services;
 
 use App\Http\Services\Boilerplate\BaseService;
 use App\Http\Repository\UserRepository;
-use App\Jobs\SendVerificationEmailJob;
 use Illuminate\Support\Facades\Hash;
 use Exception;
 
@@ -62,8 +61,6 @@ class UserService extends BaseService {
         try {
             $user = $this->repository->create($userData);
             if(!$user) return $this->response()->error();
-            dispatch(new SendVerificationEmailJob($user->email_verification_code, $user))
-                ->onQueue('email-send');
 
             return $this->response($user)
                 ->success("Successfully Signed up! \n Please verify your account");
