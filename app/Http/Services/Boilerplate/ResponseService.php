@@ -5,6 +5,7 @@ namespace App\Http\Services\Boilerplate;
 
 
 abstract class ResponseService {
+
     /**
      * @var array
      */
@@ -23,16 +24,16 @@ abstract class ResponseService {
      * @param null $data
      * @return ResponseService
      */
-    public function response($data = null) {
+    public function response($data = null): ResponseService {
         $this->response["data"] = $data;
         return $this;
     }
 
     /**
-     * @param $message
+     * @param string $message
      * @return array
      */
-    public function success($message="") {
+    public function success(string $message=""): array {
         $this->response["success"] = true;
         $this->response["message"] = __($message);
 
@@ -40,10 +41,10 @@ abstract class ResponseService {
     }
 
     /**
-     * @param $message
+     * @param string $message
      * @return array
      */
-    public function error($message="") {
+    public function error(string $message=""): array {
         $this->response["success"] = false;
         $this->response["message"] = empty($message) ?
             __($this->errorMessage) :
@@ -51,7 +52,6 @@ abstract class ResponseService {
 
         return $this->response;
     }
-
 
     /**
      * @param string $token
@@ -81,7 +81,7 @@ abstract class ResponseService {
      * @param string $message
      * @return array
      */
-    public function socialAuthenticateApiResponse (object $user, string $token, string $message) {
+    public function socialAuthenticateApiResponse (object $user, string $token, string $message): array {
         $authData = [
             'email_verified' => $user->email_verified == 1,
             'access_token' => $token,
