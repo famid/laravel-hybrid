@@ -45,7 +45,7 @@ class ForgotPasswordService extends BaseService {
             $randNo = randomNumber(6);
             dispatch(new SendForgetPasswordEmailJob($randNo, $userResponse['data']));
 
-            return $this->storePasswordResetCode($userResponse['data'],$randNo);
+            return $this->savePasswordResetCode($userResponse['data'], $randNo);
         } catch (Exception $e) {
 
             return $this->response()->error();
@@ -57,7 +57,7 @@ class ForgotPasswordService extends BaseService {
      * @param int $randNo
      * @return array
      */
-    private function storePasswordResetCode(object $user, int $randNo): array {
+    private function savePasswordResetCode(object $user, int $randNo): array {
         $storePasswordResetResponse = $this->passwordResetRepository->create(
             [
                 'user_id' => $user->id,
