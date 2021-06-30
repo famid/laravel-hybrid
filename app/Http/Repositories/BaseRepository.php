@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Repositories;
 
 abstract class BaseRepository {
@@ -24,7 +23,7 @@ abstract class BaseRepository {
      */
     public function all()
     {
-        return $this->all();
+        return $this->model->all();
     }
 
     /**
@@ -127,7 +126,7 @@ abstract class BaseRepository {
      * @param array $with
      * @return mixed
      */
-    public function getData(array $where=[], array $select=null, array $orderBy=[], array $with=[]){
+    public function selectData(array $where=[], array $select=null, array $orderBy=[], array $with=[]) {
         if($select == null){
             $select = ['*'];
         }
@@ -143,8 +142,25 @@ abstract class BaseRepository {
             }
         }
         foreach($orderBy as $key => $value) {
-            $query->orderBy($key,$value);
+            if (empty($orderBy)) {
+                $query->orderBy("created_at", "DESC");
+            } else {
+                $query->orderBy($key,$value);
+            }
         }
+
+        return $query;
+    }
+
+    /**
+     * @param array $where
+     * @param array|null $select
+     * @param array $orderBy
+     * @param array $with
+     * @return mixed
+     */
+    public function getData(array $where=[], array $select=null, array $orderBy=[], array $with=[]){
+        $query = $this->selectData($where, $select, $orderBy, $with);
 
         return $query->get();
     }
@@ -166,5 +182,4 @@ abstract class BaseRepository {
     public function updateOrCreate(array $where, array $data) {
         return $this->model->updateOrCreate($where, $data);
     }
-
 }
