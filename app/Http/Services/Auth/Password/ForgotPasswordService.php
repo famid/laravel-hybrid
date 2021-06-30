@@ -4,7 +4,7 @@
 namespace App\Http\Services\Auth\Password;
 
 
-use App\Http\Repository\PasswordResetRepository;
+use App\Http\Repositories\PasswordResetRepository;
 use App\Http\Services\Boilerplate\BaseService;
 use App\Jobs\SendForgetPasswordEmailJob;
 use App\Http\Services\UserService;

@@ -5,7 +5,7 @@ namespace App\Http\Services;
 
 
 use App\Http\Services\Boilerplate\BaseService;
-use App\Http\Repository\UserRepository;
+use App\Http\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
 use Exception;
 

@@ -4,7 +4,7 @@
 namespace App\Http\Services;
 
 
-use App\Http\Repository\MobileDeviceRepository;
+use App\Http\Repositories\MobileDeviceRepository;
 use App\Http\Services\Boilerplate\BaseService;
 
 class MobileDeviceService extends BaseService {

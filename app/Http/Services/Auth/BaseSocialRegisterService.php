@@ -4,7 +4,7 @@
 namespace App\Http\Services\Auth;
 
 
-use App\Http\Repository\SocialAccountRepository;
+use App\Http\Repositories\SocialAccountRepository;
 use App\Http\Services\Boilerplate\BaseService;
 use App\Http\Services\UserService;
 

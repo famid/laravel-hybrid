@@ -4,7 +4,7 @@
 namespace App\Http\Services;
 
 
-use App\Http\Repository\OAuthAccessTokenRepository;
+use App\Http\Repositories\OAuthAccessTokenRepository;
 use App\Http\Services\Boilerplate\BaseService;
 
 class OAuthAccessTokenService extends BaseService {
