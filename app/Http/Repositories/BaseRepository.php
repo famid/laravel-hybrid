@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Repository;
+namespace App\Http\Repositories;
 
 abstract class BaseRepository {
 
