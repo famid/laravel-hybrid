@@ -1,0 +1,42 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class {{ class }} extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('{{ table }}', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            //Edit your field
+            $table->string('test');
+            $table->string('test')->nullable();
+            $table->string('test')->unique()->nullable();
+            $table->string('test')->unique();
+            $table->string('test', 25)->nullable();
+            $table->string('test')->default('test');
+            $table->tinyInteger('status')->default(0);
+            $table->enum('test', ['var1', 'var1']);
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            //Finish
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('{{ table }}');
+    }
+}

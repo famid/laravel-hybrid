@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e9b2eb707c6093f1f8fa313218ecf2e7",
+    "content-hash": "0ec9f8daeae0b80c0158661d05c212fa",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3788,6 +3788,71 @@
                 }
             ],
             "time": "2021-09-25T23:10:38+00:00"
+        },
+        {
+            "name": "spatie/laravel-stubs",
+            "version": "2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-stubs.git",
+                "reference": "07aea6215fbf2185c4d96eecafe54d395e1f584a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-stubs/zipball/07aea6215fbf2185c4d96eecafe54d395e1f584a",
+                "reference": "07aea6215fbf2185c4d96eecafe54d395e1f584a",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^7.2|^8.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Stubs\\StubsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Stubs\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Opinionated Laravel stubs",
+            "homepage": "https://github.com/spatie/laravel-stubs",
+            "keywords": [
+                "laravel-stubs",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-stubs/issues",
+                "source": "https://github.com/spatie/laravel-stubs/tree/2.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                }
+            ],
+            "time": "2021-11-10T16:04:29+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -8958,5 +9023,5 @@
         "php": "^7.2.5"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }

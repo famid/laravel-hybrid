@@ -1,0 +1,257 @@
+<?php
+
+namespace {{ namespace }};
+
+
+use App\Http\Repositories\RepositoryClassName;
+use App\Http\Services\Boilerplate\BaseService;
+use Illuminate\Database\QueryException;
+use Yajra\DataTables\DataTables;
+use Exception;
+
+class {{ class }} extends BaseService {
+
+     /**
+     * @var RepositoryClassName
+     */
+    private $repositoryName;
+
+     /**
+     * {{ class }} constructor.
+     * @param RepositoryClassName $repositoryName
+     */
+    public function __construct(RepositoryClassName $repositoryName) {
+        $this->repositoryName = $repositoryName;
+    }
+    //=========================Template=================================//
+
+    public function functionName(): array {
+        try {
+            //Write code here
+
+            return $this->response()->error();
+        } catch (Exception $e) {
+
+            return $this->response()->error();
+        }
+    }
+    //=========================Template=================================//
+    /**
+     * @param $request
+     * @return array
+     */
+    public function createFeatureName($request): array {
+        try {
+            $createFeatureNameResponse = $this->repositoryName->create(
+                $this->preparedCreateFeatureNameData($request)
+            );
+
+            return !$createFeatureNameResponse ?
+                $this->response()->error() :
+                $this->response()->success('FeatureName is created successfully');
+        } catch(QueryException $e) {
+
+            return $this->response()->error();
+        }
+    }
+
+    /**
+     * @param object $request
+     * @return array
+     */
+    private function preparedCreateFeatureNameData(object $request): array {
+        return [
+            'test' => $request->test,
+            'test' => $request->test,
+            'test' => $request->test,
+            'test' => $request->test,
+            'test' => $request->test,
+            'test' => $request->test,
+            'test' => $request->test,
+            'test' => isset($request->test) ?? $request->test,
+        ];
+    }
+
+    /**
+     * @param $request
+     * @return array
+     */
+    public function updateFeatureName($request): array {
+        try {
+            $updateFeatureNameResponse = $this->repositoryName->updateWhere(
+                ['id' => $request->featureName_id],
+                $this->preparedUpdateFeatureNameData($request)
+            );
+
+            return !$updateFeatureNameResponse ?
+                $this->response()->error() :
+                $this->response()->success('FeatureName is updated successfully');
+        } catch(QueryException $e) {
+
+            return $this->response()->error();
+        }
+    }
+
+    /**
+     * @param object $request
+     * @return array
+     */
+    private function preparedUpdateFeatureNameData (object $request): array {
+        return [
+            'test' => $request->test,
+            'test' => $request->test,
+            'test' => $request->test,
+            'test' => $request->test,
+            'test' => $request->test,
+            'test' => $request->test,
+            'test' => $request->test,
+            'test' => isset($request->test) ?? $request->test,
+        ];
+    }
+
+    /**
+     * @param $id
+     * @return array
+     */
+    public function deleteFeatureNameById($id): array {
+        try{
+            $deleteFeatureNameResponse = $this->repositoryName->deleteWhere(
+                ['id' => $id]
+            );
+
+            return $deleteFeatureNameResponse <= 0 ?
+                $this->response()->error() :
+                $this->response()->success('FeatureName is deleted successfully');
+        } catch(QueryException $e) {
+
+            return $this->response()->error();
+        }
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function getFeatureNameById (int $id): array {
+        try {
+            $featureName = $this->repositoryName->find($id);
+
+            return !isset($featureName) ?
+                $this->response()->error('No FeatureName is founded') :
+                $this->response($featureName)->success();
+        } catch (QueryException $e) {
+
+            return $this->response()->error();
+        }
+    }
+
+    /**
+     * @param int $testId
+     * @return array
+     */
+    public function getFeatureNamesByTestId (int $testId): array {
+        try {
+            $featureNames = $this->repositoryName->getData(['area_id' => $testId]);
+
+            return $featureNames->isEmpty() ?
+                $this->response()->error('No FeatureName is founded') :
+                $this->response($featureNames)->success();
+        } catch (QueryException $e) {
+
+            return $this->response()->error();
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllFeatureNames (): array {
+        try {
+            $allFeatureName = $this->repositoryName->getData();
+
+            return $allFeatureName->isEmpty() ?
+                $this->response()->error('No FeatureName is founded') :
+                $this->response($allFeatureName)->success();
+        } catch (QueryException $e) {
+
+            return $this->response()->error();
+        }
+    }
+
+    /**
+     * @param null $testId
+     * @return array
+     */
+    private function queryFeatureNameTableData ($testId = null): array {
+        try {
+            $allFeatureName = $this->repositoryName->featureNameTableDataQuery($testId);
+
+            return !isset($allFeatureName) ?
+                $this->response()->error() :
+                $this->response($allFeatureName)->success();
+        } catch (QueryException $e) {
+
+            return $this->response()->error();
+        }
+    }
+
+    /**
+     * @param object $request
+     * @return object|null
+     */
+    public function featureNameTableData(object $request): ?object {
+        if (!$request->ajax()) return null;
+
+        $allFeatureName = $this->queryFeatureNameTableData();
+
+        if (!$allFeatureName['success']) return null;
+        $allFeatureName = $allFeatureName['data'];
+
+        try {
+            return Datatables::of($allFeatureName)
+                ->addColumn('title', function ($item) {
+                    return !isset($item->title) ? 'N/A' : $item->title;
+                })
+                ->addColumn('is_contaminated', function ($item) {
+                    $isContaminated = $item->is_contaminated != TRUE ? "FALSE" : "TRUE";
+                    return !isset($item->is_contaminated) ? 'N/A' : $isContaminated;
+                })
+                ->addColumn('address', function ($item) {
+                    return !isset($item->address) ? 'N/A' : $item->address;
+                })
+                ->addColumn('status', function ($item) {
+                    return $item->status == ACTIVE ?
+                        '<a class="text-success mr-2" href="#">Published</a>' :
+                        '<a class="text-danger mr-2" href="#">Not yet published</a>';
+                })
+                ->addColumn('image', function ($item) {
+                    $url = asset(str_replace(env('SERVER_URL'),'',$item->image));
+                    return !isset($item->image) ?
+                        'N/A' :
+                        '<a href="'.$item->image.'" target="_blank">
+                            <img src="'.$url.'" alt="water_problem_type_image" width="60" height="50" class="img-rounded"/>
+                        </a>';
+                })
+                ->addColumn('action', function ($item) {
+                    return '<ul class="activity-menu list-unstyled" style="display: inline-flex;">
+                                    <li>
+                                        <a class="text-success mr-2"
+                                        href="' . route('web.featureName.edit', ['id' => encrypt($item->id)]) .'" data-placement="top" title="' . __('Edit') . '">
+                                            <i data-id = "' . encrypt($item->id) . '" data-toggle="modal" data-target="#editModal" class="nav-icon i-Pen-2 font-weight-bold editFeatureName"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="text-danger mr-2 confirmedDelete" href="' . route('web.featureName.delete', ['id' => encrypt($item->id)]) . '"
+                                        data-toggle="tooltip" data-placement="top" title="' . __('Delete') . '">
+                                            <i class="nav-icon i-Close-Window font-weight-bold"></i>
+                                        </a>
+                                    </li>';
+                })
+                ->rawColumns(['action', 'image'])
+                ->make(true);
+        } catch (Exception $e) {
+
+            return null;
+        }
+    }
+}
