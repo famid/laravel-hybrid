@@ -1,79 +1,214 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+## About Laravel Hybrid
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+This boilerplate is helpful for any Laravel web application or
+backend application. It will speed up your work and make your 
+life easier. It will set up almost all basic packages like 
+passport, horizon, edujugon/push-notification, laravel/socialite, 
+twilio/sdk, predis/predis, facade/ignition, and so on.
 
-## About Laravel
+In addition to that, it will provide, authentication API, web authentication, and also provides a beautiful admin dashboard. If you need
+any custom modification, you can do it very quickly.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Some explanation about code pattern:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **[Request](#)**
+```
+    How to make request class for validation?
+    
+    For Api: php artisan make:request Api/TestRequest
+    For Web: php artisan make:request Web/TestRequest
+    
+    Example code:
+    
+    public function rules(): array {
+        return [
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|min:8',
+             ......
+        ];
+    }
+    
+    /**
+     * @return array
+     */
+    public function messages(): array {
+        return [
+            'email.required' => __('Email field can not be empty'),
+            'email.email' => __('Invalid email address'),
+            'password.required' => __('Password field can not be empty'),
+            'password.min' => __('Password length must be at least 8 characters.'),
+            'password.confirmed' => __('Password and confirm password is not matched'),
+             .......
+        ]; 
+    }
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Controller
+    How to make controller class?
+    For Api:  php artisan make:controller Api/TestModule/TestController
+    
+    Example code:
+    
+     /**
+     * @param TestRequest $request
+     * @return JsonResponse
+     */
+    public function testMethod(TestRequest $request): JsonResponse {
+        return response()->json($this->testService->testFunction($request));
+    }
+    
+    For Web:  php artisan make:controller Web/TestModule/TestController
+    
+    public function testMethod(TestRequest $request): RedirectResponseAlias {
+        return $this->webResponse($this->testService->testFunction($request), 'redirect route name');
+    }
+    
+    About webResponse method:
+    
+        webResponse(
+            array $serviceResponse, 
+            string $successRoute = null, 
+            string $failedRoute = null,
+            array $successRouteParameter = [], 
+            array $failedRouteParameter
+        )
+    
+    In controller class, we does not write our bussiness logic, it will 
+    just receive the request and pass the response.
+```
+- **[Service](#)**
+```
+    In Service class, we only write our business logic, then 
+    return the required data to the controller class.
 
-## Learning Laravel
+    How to make a service class?
+    $ php artisan make: service TestService
+    
+    This command will create a service class and also create a template. You only need
+    a few lines of code. If you don't comfortable with the template then 
+    you can easily write your own method for the service class.
+    
+    In the service class, we can use a special method 
+    called response.
+    
+    
+    public function someFunc($request_data) {
+        // process data
+        // if have some other thing to do
+        // Anything save to data on database call Repository class
+        ......
+        if anythin went wrong:
+            return $this->response()->error();
+        
+        return $this->response()->success();     
+    }
+    
+    If you need to send any data, pass in the response method,
+    return $this->response($data)->error();
+    
+    If want to send any success message send a success message.
+    return $this->response($data)->success("something is created successfully");
+    
+    Similarly to send any error message send in the error method.
+    return $this->response($data)->error("any error message you want to write");
+    
+    If we only use it as 
+    return $this->response($data)->error();
+    By default the error message will be something went wrong.
+    
+    If you want to customize the default error message or other things,
+    checkout on "ResponseService" in App\Http\Services\Boilerplate dir.  
+```
+- **[Repository](#)**
+```
+    If you need to query anything on the database, write the function on 
+    repository class.
+    
+    In our boilerplate, all repository classes inherited abstract
+    BaseRepository class. BaseRepository class provides lots of
+    query methods that we use most frequently. Besides if you need
+    to write a new query, you will write on the repository class.
+    
+    You can create a Repository class by running the artisan command.
+    
+    $ php artisan make: repository TestRepository
+    
+    In the service class, use the repository class as,
+    
+    $updateTestResponse = $this->testRepository->updateWhere(
+                ['id' => $request->test_id],
+                $this->updatedData
+            );
+    If you need to write any customer query write as,
+    
+    public function getUserLatestResetCode (int $userId) {
+    
+        return $this->model::where(
+            ['user_id' => $userId, 'status' => PENDING_STATUS])
+            ->orderBy('id', 'desc')
+            ->first();
+    }
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```
+Purpose:
+--------
+# I had to do all this every time I start a Laravel project.
+# To install all packages, and set up the project directory structure, writing the
+  basic code from scratch is overwhelming.
+# I want my life to be easier.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
 
-## Laravel Sponsors
+```
+Future improvement:
+-------------------
+1. Add more features to this boilerplate
+2. Release this boilerplate for different Laravel versions.
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```
+Requirements:
+-------------
+1. PHP >= 7.2.5 and also php extension
+2. composer
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
+```
+To know about all dependency of php extension check [Laravel documentation](https://laravel.com/docs/7.x/installation).
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+Installation:
+--------------
+1. Lets go to the directory where you want to keep your project.
 
-## Code of Conduct
+2. Then run the below command from the terminal:
+$ git clone "https://github.com/famid/laravel-hybrid.git"
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+3. Then run:
+$ composer install
 
-## Security Vulnerabilities
+4. create a .env file and set these variables. likes APP_NAME, database credentials
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5. Lastly, run a few commands:
 
-## License
+$ php artisan key: generate
+$ php artisan migrate
+$ php artisan db: seed
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+If you need to implement API, then run the below command.
+$ php artisan passport: install
+
+If you need to implement a queue, then 
+set credentials of Redis database on .env file and run 
+$ php artisan horizon: install
+
+6. To run the application locally, run:
+
+$ php artisan serve
+
+7. To login Admin Dashboard, use the below credentials:
+email: admin@gmail.com
+password: 1234
+
+Happy Coding!!! And feel free to contribute to this boilerplate.
+```
